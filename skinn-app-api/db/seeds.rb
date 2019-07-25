@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+User.destroy_all
+Category.destroy_all
+Product.destroy_all
+
+
+
 User.create(name: "Emi")
 User.create(name: "Catherine")
 
@@ -30,6 +36,7 @@ Product.create(name: "Nourishing Oil Cleanser", brand: "Tata Harper", descriptio
 Product.create(name: "Bamboo Charcoal Cleanser", brand: "Herbivore", description: "Bamboo Charcoal has been used for centuries in the Far East. Bamboo charcoal does wonders to purify the skin by cleansing it of dirt, drawing impurities from deep within your pores. Gentle yet effective, Bamboo Charcoal works especially well to clean and care for oily, combination and blemish-prone skin types.", skintype: "oily", category_id: 2, img_path: "https://cdn.shopify.com/s/files/1/0203/8454/products/1320-25C_HBV_HIR_BAMBOOCHARCOAL_SOAP.jpg?v=1562001461")
 Product.create(name: "Renew Nourishing Cleanser", brand: "True Botanicals", description: "A gentle cleanser for aging and dry skin that nourishes as it cleanses.", skintype: "dry", category_id: 2, img_path: "https://cdn.shopify.com/s/files/1/0545/1009/products/renew-nourishing-cleanser-award_x570.png?v=1560277394")
 Product.create(name: "Clear Nourishing Cleanser", brand: "True Botanicals", description: "A purifying cleanser for oily and breakout-prone skin that nourishes as it cleanses and gently exfoliates." ,skintype: "oily", category_id: 2, img_path: "https://cdn.shopify.com/s/files/1/0545/1009/products/clear-nourishing-cleanser_x570.png?v=1557756826")
+Product.create(name: "Milky Jelly Cleanser", brand: "Glossier", description: "This is the ultimate daily face wash: use on dry skin to dissolve away makeup and grime, or on wet skin as you start your day. The pH-balanced, creamy gel formula is made with a blend of five skin conditioners so your face is left feeling healthy and soft, never tight. Its cleansing power comes from the same gentle cleaning agents found in contact lens solution, so it’s tough on impurities and still safe to use on your eyes. You’ll see." ,skintype: "all", category_id: 2, img_path: "https://static-assets.glossier.com/production/spree/images/attachments/000/003/760/portrait_normal/MilkyJellyCleanser.jpg?1556563755")
 
 # Exfoliator
 Product.create(name: "Resurface Scrub", brand: "NOTO", description: "Welcome to your new favorite scrub of all time...Skin so smooth - you’ll be amazed .  Polish and cleanse  with Blood orange, alpha hydroxy acids and walnut powder, combining to create a gentle exfoliate that leaves your skin feeling brand new.  We recommend using this scrub twice a week - and please do protect your skin after use as AHA’s can leave skin sensitive towards the sun.", skintype: "all", category_id: 3, img_path: "https://cdn.shopify.com/s/files/1/1627/2127/products/Noto-054-High-Res_1500x1500.jpg?v=1549926757")

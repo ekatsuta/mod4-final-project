@@ -4,7 +4,7 @@ const StepCard = (props) => {
 
   return(
     <div>
-      {props.product.name}
+      |{props.product.name}|
     </div>
   )
 }

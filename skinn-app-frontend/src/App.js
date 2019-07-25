@@ -3,14 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import MainContainer from './containers/MainContainer'
 import NavBar from './containers/NavBar'
-
+import QuizPage from './containers/QuizPage'
 
 class App extends React.Component {
 
   state = {
     allProducts: [], //32 products
     userCollection: [], //10 products for the main container
-    skintype: "all",
+    skintype: "dry",
+    quiz: false,
+    question: "What is your skin type?",
+    answer: "",
+
   }
 
   componentDidMount(){
@@ -95,14 +99,48 @@ class App extends React.Component {
     return productArr[randomIdx]
   }
 
+  toggleQuiz = () => {
+    this.setState({
+      quiz: !this.state.quiz
+    })
 
+  }
+
+  renderQuiz = () => {
+    if (this.state.quiz) {
+      return <QuizPage
+      handleSubmit={this.handleSubmit}
+      handleInput={this.handleInput}
+      question={this.state.question}
+      answer={this.state.answer}
+      skintype={this.state.skintype}
+      products={this.state.userCollection}/>
+    } else {
+      return <MainContainer products={this.state.userCollection}/>
+    }
+  }
+
+  handleInput = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    })
+  }
+
+  handleSubmit = (event) => {
+    // event.preventDefault();
+    if (this.state.answer === this.state.skintype){
+      console.log("true!")
+      return <MainContainer products={this.state.userCollection}/>
+    }
+  }
 
   render(){
 
     return (
       <div>
-        <NavBar />
-        <MainContainer products={this.state.userCollection}/>
+        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz}/>
+
+        {this.renderQuiz()}
       </div>
     )
 

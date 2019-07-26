@@ -3,12 +3,12 @@ import StepCard from '../components/StepCard'
 
 class MainContainer extends React.Component {
 
-
   render(){
     return(
       <div className="main-container">
-        {this.props.products.map(product => {
-          return <StepCard key={product.id} product={product}/>
+        <h3>Your 10 Step Skincare</h3>
+        {this.props.products.map((product, idx) => {
+          return <StepCard key={product.id} product={product} idx={idx} browse={this.props.browse}/>
         })}
       </div>
     )

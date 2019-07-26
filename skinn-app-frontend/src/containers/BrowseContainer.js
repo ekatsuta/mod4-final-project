@@ -9,7 +9,7 @@ class Browse extends React.Component {
     })
 
     return filteredProducts.map(product => {
-      return <StepCard key={product.id} product={product} browse={this.props.browse}/>
+      return <StepCard path={this.props.match.path} key={product.id} product={product} browse={this.props.browse}/>
     })
   }
 
@@ -23,39 +23,39 @@ class Browse extends React.Component {
         <h3>Water Base Cleansers</h3>
           <div className="category-container">
           {this.renderProductByCategory("water based cleanser")}
-          </div>  
+          </div>
         <h3>Exfoliator</h3>
           <div className="category-container">
           {this.renderProductByCategory("exfoliator")}
-          </div>  
+          </div>
         <h3>Toner</h3>
           <div className="category-container">
           {this.renderProductByCategory("toner")}
-          </div>  
+          </div>
         <h3>Serum</h3>
           <div className="category-container">
           {this.renderProductByCategory("serum")}
-          </div>  
+          </div>
         <h3>Mask</h3>
           <div className="category-container">
           {this.renderProductByCategory("mask")}
-          </div>  
+          </div>
         <h3>Eyecream</h3>
           <div className="category-container">
           {this.renderProductByCategory("eyecream")}
-          </div>  
+          </div>
         <h3>Moisturizer</h3>
           <div className="category-container">
           {this.renderProductByCategory("moisturizer")}
-          </div>  
+          </div>
         <h3>Sunscreen</h3>
           <div className="category-container">
           {this.renderProductByCategory("sunscreen")}
-          </div>  
+          </div>
         <h3>Facial Oil</h3>
           <div className="category-container">
           {this.renderProductByCategory("facial oil")}
-          </div>  
+          </div>
       </div>
     )
   }

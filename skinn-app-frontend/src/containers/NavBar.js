@@ -1,22 +1,22 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 
 class NavBar extends React.Component {
 
   render(){
-    console.log("quiz click", this.props.quiz)
     return(
+      <React.Fragment>
       <div className="navbar">
-        <h3 onClick={this.props.handleHome} className="logo">SKINN</h3>
         <div className="nav-buttons">
-
-          <button onClick={this.props.toggleQuiz}>QUIZ PAGE</button>
-          <button onClick={this.props.handleBrowse}>BROWSE</button>
-
-          <button>LOG IN</button>
-
+        <Link to="/browse" style={{ textDecoration: 'none' }}><button>BROWSE</button></Link>
+          <Link to="/quiz" style={{ textDecoration: 'none' }}><button>QUIZ PAGE</button></Link>
+          <Link to="/login" style={{ textDecoration: 'none' }}><button>LOG IN</button></Link>
         </div>
+        <Link to="/home" style={{ textDecoration: 'none', padding: 30 }}><h3 className="logo">SKINN</h3></Link>
       </div>
+      </React.Fragment>
+
     )
   }
 }

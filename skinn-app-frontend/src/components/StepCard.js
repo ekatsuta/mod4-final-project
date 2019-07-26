@@ -18,15 +18,15 @@ const StepCard = (props) => {
     )
   }
 
-  return(
 
-    <div className={props.browse ? "browse-card" : "step-card"}>
-      <p className="product-number">{props.browse ? null : props.idx + 1}</p>
+  return(
+    <div className={props.path === '/browse' ? "browse-card" : "step-card"}>
+      <p className="product-number">{props.path === '/browse' ? null : props.idx + 1}</p>
       <p>{props.product.name}</p>
       <p>{props.product.brand}</p>
         <div className="product-image-container">
           <img className="product-image" src={props.product.img_path} />
-          {props.browse ? renderSwapButton() : renderDescription()}
+          {props.path === '/browse' ? renderSwapButton() : renderDescription()}
         </div>
     </div>
   )

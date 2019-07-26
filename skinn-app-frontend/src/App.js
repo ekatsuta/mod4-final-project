@@ -5,6 +5,10 @@ import MainContainer from './containers/MainContainer'
 import NavBar from './containers/NavBar'
 import QuizPage from './containers/QuizPage'
 import BrowseContainer from './containers/BrowseContainer'
+import Login from './containers/Login'
+import SignUp from './containers/SignUp'
+
+import { Route, Switch } from 'react-router-dom'
 
 
 const API = "http://localhost:3000/"
@@ -14,11 +18,9 @@ class App extends React.Component {
   state = {
     allProducts: [], //32 products
     userCollection: [], //10 products for the main container
-
-    skintype: "",
+    skintype: "all",
     quiz: false,
     question: "What is your skin type?",
-    showBrowse: false,
     currentUser: null
   }
 
@@ -42,8 +44,9 @@ class App extends React.Component {
     })
     const uniqueCategories = [...new Set(categories)]
 
+
     const filteredProducts = this.state.allProducts.filter(product => {
-      if (product.skintype === this.state.skintype) {
+      if (product.skintype === this.state.skintype || product.skintype === 'all') {
         return product
       }
     })
@@ -103,6 +106,7 @@ class App extends React.Component {
     this.setState({
       quiz: !this.state.quiz
     })
+  }
 
   handleBrowse = () => {
     this.setState({
@@ -117,74 +121,55 @@ class App extends React.Component {
   }
 
 
-  }
-
-  // renderQuiz = () => {
-  //   if (this.state.quiz) {
-  //     return <QuizPage
-  //     // handleSubmit={this.handleSubmit}
-  //     // handleInput={this.handleInput}
-  //     handleSkintype={this.handleSkintype}
-  //     question={this.state.question}
-  //     // answer={this.state.answer}
-  //     skintype={this.state.skintype}
-  //     products={this.state.userCollection}/>
-  //   } else {
-  //     return <MainContainer products={this.state.userCollection}/>
-  //   }
-  // }
-
-  // handleInput = (event) => {
-  //   this.setState({
-  //     [event.target.name]: event.target.value
-  //   })
-  // }
-  //
-  // handleSubmit = (event) => {
-  //   // event.preventDefault();
-  //   if (this.state.answer === this.state.skintype){
-  //     console.log("true!")
-  //     return <MainContainer products={this.state.userCollection}/>
-  //   }
-  // }
-
   handleSkintype = (event) => {
-    // debugger;
-    // event.persist();
     console.log("handle submit")
     this.setState({
-      quiz: !this.state.quiz,
       skintype: event.target.innerText.toLowerCase()
     }, () => this.filterProducts())
   }
-  //dry = true
-  //quiz active = true
 
+  loginUser = (input) => {
+    fetch(`${API}/login`, {
+      headers: {
+        "Authorization": input
+      }
+    })
+    .then(resp => resp.json())
+    .then(response => {
+      this.setState({
+        currentUser: response.user
+      }, () => {
+        if (response.userProducts.length === 0) {
+          this.props.history.push("/quiz")
+        } else {
+          this.props.history.push("/home")
+        }
+      })
+
+    })
+  }
 
   render(){
-    console.log("app", this.state.skintype)
+    console.log(this.state)
     return (
-      <div>
-
+      <React.Fragment>
         <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
+        <Switch>
+          <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
+          <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} />} />
 
-        {this.state.skintype && this.state.quiz
-          ?
-          <MainContainer products={this.state.userCollection}/>
-          :
-          <QuizPage
+          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} /> } />
+          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} browse={this.state.showBrowse} />} />
+          <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}
           question={this.state.question}
           skintype={this.state.skintype}
-          products={this.state.userCollection}/>
-        }
-
-
-        {this.state.showBrowse ? <BrowseContainer products={this.state.allProducts} browse={this.state.showBrowse}/> : <MainContainer products={this.state.userCollection} browse={this.state.showBrowse}/>}
-
-      </div>
+          products={this.state.userCollection} />}/>
+        </Switch>
+      </React.Fragment>
     )
-
   }
+
+
 }
 export default App;

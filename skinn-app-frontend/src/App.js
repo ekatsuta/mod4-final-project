@@ -4,21 +4,26 @@ import './App.css';
 import MainContainer from './containers/MainContainer'
 import NavBar from './containers/NavBar'
 import QuizPage from './containers/QuizPage'
+import BrowseContainer from './containers/BrowseContainer'
+
+
+const API = "http://localhost:3000/"
 
 class App extends React.Component {
 
   state = {
     allProducts: [], //32 products
     userCollection: [], //10 products for the main container
+
     skintype: "",
     quiz: false,
     question: "What is your skin type?",
-    // answer: "",
-
+    showBrowse: false,
+    currentUser: null
   }
 
   componentDidMount(){
-    fetch("http://localhost:3000/products")
+    fetch(`${API}/products`)
     .then(resp => resp.json())
     .then(products => {
       this.setState({
@@ -26,7 +31,6 @@ class App extends React.Component {
       })
       this.filterProducts()
     })
-
   }
 
   filterProducts(){
@@ -71,27 +75,22 @@ class App extends React.Component {
 
     this.setState({
       userCollection: finalArr.flat()
-    })
-
-    // const listOfCategories = filteredProducts.map(product => {
-    //   return product.category.name
-    // })
-    //
-    // const count = {}
-    // listOfCategories.forEach(function(category) {count[category] = (count[category] || 0) + 1})
-    //
-    // const finalProductArr = [] //want to push the product object per category into this array, and eventually set the state to this array
-    // const categoriesToBeRandomized = []
-    //
-    // for (let category in count) {
-    //   if (count[category] > 1) {
-    //     categoriesToBeRandomized.push(category)
-    //   }
-    // }
+    }, () => this.createUserProduct())
 
 
   }
 
+  createUserProduct(){
+    //need to first fetch (componentDidMount? or Update? THEN set the state)
+    fetch(`${API}/user_products`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify(this.state)
+    })
+  }
 
   randomizeSelection(productArr){
     const length = productArr.length
@@ -99,10 +98,24 @@ class App extends React.Component {
     return productArr[randomIdx]
   }
 
+
   toggleQuiz = () => {
     this.setState({
       quiz: !this.state.quiz
     })
+
+  handleBrowse = () => {
+    this.setState({
+      showBrowse: true
+    })
+  }
+
+  handleHome = () => {
+    this.setState({
+      showBrowse: false
+    })
+  }
+
 
   }
 
@@ -152,7 +165,8 @@ class App extends React.Component {
     console.log("app", this.state.skintype)
     return (
       <div>
-        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz}/>
+
+        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
 
         {this.state.skintype && this.state.quiz
           ?
@@ -164,6 +178,9 @@ class App extends React.Component {
           skintype={this.state.skintype}
           products={this.state.userCollection}/>
         }
+
+
+        {this.state.showBrowse ? <BrowseContainer products={this.state.allProducts} browse={this.state.showBrowse}/> : <MainContainer products={this.state.userCollection} browse={this.state.showBrowse}/>}
 
       </div>
     )

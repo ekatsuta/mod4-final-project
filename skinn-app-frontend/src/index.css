@@ -12,6 +12,7 @@ code {
     monospace;
 }
 
+/* NavBar Styling */
 .navbar {
   -webkit-box-align: center;
   align-items: center;
@@ -22,7 +23,7 @@ code {
   height: 72px;
   -webkit-box-pack: justify;
   justify-content: space-between;
-  position: relative;
+  position: fixed;
   transform: translateZ(0);
   transition: background-color .15s ease-in-out;
   width: 100%;
@@ -42,7 +43,14 @@ code {
   -webkit-box-ordinal-group: 3;
   order: 2;
   transform: translateZ(0);
-  padding: 0% 15%;
+  padding: 0% 7%;
+  font-size: 30px;
+  transition: transform .2s;
+}
+
+.logo:hover {
+  color: pink;
+  transform: scale(1.3);
 }
 
 .nav-buttons {
@@ -59,18 +67,143 @@ code {
   font-size: 13px;
   font-family: sans-serif;
   color: #443a3a;
+  width: 100%;
+  font-weight: bold;
+  height: 72px;
+  justify-content: center;
 }
 
 .navbar button:hover {
   background-color: orange;
-  color: black;
+  color: white;
 }
 
+
+/* MainContainer styling */
 .main-container {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  padding: 10% 2% 10% 2%;
-  /* border-style: solid;
-  border-color: grey */
+  padding: 7% 2% 10% 2%;
+}
+
+.main-container h3 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.product-description {
+  background-color: grey;
+  color: white;
+  font-size: 16px;
+  padding: 16px 32px;
+}
+
+.product-number {
+  font-family: sans-serif;
+  font-size: 28px;
+}
+
+
+/* StepCard Styling (for user collection page) */
+.step-card {
+  width: 25%;
+  padding: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1%;
+}
+
+.step-card img {
+  width: 100%;
+}
+
+.product-image-container {
+  position: relative;
+  width: 100%;
+}
+
+.product-image {
+  opacity: 1;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .5s ease;
+  backface-visibility: hidden;
+}
+
+.middle {
+  transition: .5s ease;
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  text-align: center;
+  width: 100%;
+}
+
+.step-card:hover .product-image {
+  opacity: 0.3;
+}
+
+.step-card:hover .middle {
+  opacity: 1;
+}
+
+/* StepCard Styling (for browse page) */
+.browse-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 6% 0 0 0
+  /* padding: 3% 2% 10% 2%; */
+}
+
+.category-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.browse-card {
+  width: 40%;
+}
+
+.browse-card img {
+  width: 100%;
+}
+
+.browse-container h3 {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: #ffebf5;
+  padding: 1.5% 0 1.5% 0
+}
+
+.browse-card {
+  width: 20%
+}
+
+.browse-card:hover .product-image {
+  opacity: 0.3;
+}
+
+.browse-card:hover .middle {
+  opacity: 1;
+}
+
+.swap-button {
+  width: 50%;
+  font-size: 15px;
+  border-style: double;
+  padding: 8px;
+  border-radius: 3%;
 }

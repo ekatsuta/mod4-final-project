@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MainContainer from './containers/MainContainer'
 import NavBar from './containers/NavBar'
+import QuizPage from './containers/QuizPage'
 import BrowseContainer from './containers/BrowseContainer'
 
 
@@ -13,7 +14,10 @@ class App extends React.Component {
   state = {
     allProducts: [], //32 products
     userCollection: [], //10 products for the main container
-    skintype: "all",
+
+    skintype: "",
+    quiz: false,
+    question: "What is your skin type?",
     showBrowse: false,
     currentUser: null
   }
@@ -94,6 +98,12 @@ class App extends React.Component {
     return productArr[randomIdx]
   }
 
+
+  toggleQuiz = () => {
+    this.setState({
+      quiz: !this.state.quiz
+    })
+
   handleBrowse = () => {
     this.setState({
       showBrowse: true
@@ -107,12 +117,71 @@ class App extends React.Component {
   }
 
 
-  render(){
+  }
 
+  // renderQuiz = () => {
+  //   if (this.state.quiz) {
+  //     return <QuizPage
+  //     // handleSubmit={this.handleSubmit}
+  //     // handleInput={this.handleInput}
+  //     handleSkintype={this.handleSkintype}
+  //     question={this.state.question}
+  //     // answer={this.state.answer}
+  //     skintype={this.state.skintype}
+  //     products={this.state.userCollection}/>
+  //   } else {
+  //     return <MainContainer products={this.state.userCollection}/>
+  //   }
+  // }
+
+  // handleInput = (event) => {
+  //   this.setState({
+  //     [event.target.name]: event.target.value
+  //   })
+  // }
+  //
+  // handleSubmit = (event) => {
+  //   // event.preventDefault();
+  //   if (this.state.answer === this.state.skintype){
+  //     console.log("true!")
+  //     return <MainContainer products={this.state.userCollection}/>
+  //   }
+  // }
+
+  handleSkintype = (event) => {
+    // debugger;
+    // event.persist();
+    console.log("handle submit")
+    this.setState({
+      quiz: !this.state.quiz,
+      skintype: event.target.innerText.toLowerCase()
+    }, () => this.filterProducts())
+  }
+  //dry = true
+  //quiz active = true
+
+
+  render(){
+    console.log("app", this.state.skintype)
     return (
       <div>
-        <NavBar handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
+
+        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
+
+        {this.state.skintype && this.state.quiz
+          ?
+          <MainContainer products={this.state.userCollection}/>
+          :
+          <QuizPage
+          handleSkintype={this.handleSkintype}
+          question={this.state.question}
+          skintype={this.state.skintype}
+          products={this.state.userCollection}/>
+        }
+
+
         {this.state.showBrowse ? <BrowseContainer products={this.state.allProducts} browse={this.state.showBrowse}/> : <MainContainer products={this.state.userCollection} browse={this.state.showBrowse}/>}
+
       </div>
     )
 

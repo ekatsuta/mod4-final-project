@@ -19,6 +19,7 @@ const StepCard = (props) => {
   }
 
   return(
+
     <div className={props.browse ? "browse-card" : "step-card"}>
       <p className="product-number">{props.browse ? null : props.idx + 1}</p>
       <p>{props.product.name}</p>

@@ -4,6 +4,7 @@ import StepCard from '../components/StepCard'
 class MainContainer extends React.Component {
 
   render(){
+    console.log("main", this.props)
     return(
       <div className="main-container">
         <h3>Your 10 Step Skincare</h3>

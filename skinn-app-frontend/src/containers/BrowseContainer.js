@@ -9,7 +9,7 @@ class Browse extends React.Component {
     })
 
     return filteredProducts.map(product => {
-      return <StepCard path={this.props.match.path} handleProductClick={this.props.handleProductClick} key={product.id} product={product} browse={this.props.browse}/>
+      return <StepCard pathName="browse" path={this.props.match.path} handleProductClick={this.props.handleProductClick} key={product.id} product={product} browse={this.props.browse}/>
     })
   }
 

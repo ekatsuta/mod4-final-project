@@ -7,7 +7,7 @@ import QuizPage from './containers/QuizPage'
 import BrowseContainer from './containers/BrowseContainer'
 import Login from './containers/Login'
 import SignUp from './containers/SignUp'
-import ProductPage from './containers/ProductPage'
+import ProductPage from './components/ProductPage'
 
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
 
@@ -28,13 +28,6 @@ class App extends React.Component {
 
   handleProductClick = (propsId) => {
     console.log("clicked!", propsId)
-    // this.props.products.map(product => {
-    //   if (product.id === propsId){
-    //     return {...product, selectedProduct: !this.selectedProduct}
-    //   } else {
-    //     return product
-    //   }
-    // })
 
     let selectedProduct = this.state.allProducts.find(product => {
       return product.id === propsId
@@ -97,7 +90,6 @@ class App extends React.Component {
       }
     }
 
-
     this.setState({
       userCollection: finalArr.flat()
     }, () => this.createUserProduct())
@@ -116,7 +108,7 @@ class App extends React.Component {
     })
     .then(resp => resp.json())
     .then(json => {
-      this.props.history.push("/home")
+      this.props.history.push("/products")
     })
   }
 
@@ -130,18 +122,6 @@ class App extends React.Component {
   toggleQuiz = () => {
     this.setState({
       quiz: !this.state.quiz
-    })
-  }
-
-  handleBrowse = () => {
-    this.setState({
-      showBrowse: true
-    })
-  }
-
-  handleHome = () => {
-    this.setState({
-      showBrowse: false
     })
   }
 
@@ -165,12 +145,10 @@ class App extends React.Component {
         if (response.user_products.length === 0) {
           this.props.history.push("/quiz")
         } else {
-          const userProducts = response.user_products.map(userProduct => {
-            return userProduct.product
-          })
+          const userProducts = response.user_products
           this.setState({
             userCollection: userProducts
-          }, () => this.props.history.push("/home"))
+          }, () => this.props.history.push("/products"))
         }
       })
 
@@ -197,31 +175,69 @@ class App extends React.Component {
   }
 
   logout = () => {
-    debugger
    this.setState({
      currentUser: null
-   }, () => {
-     // localStorage.removeItem("token")
-    this.props.history.push("/login")
+   })
+
+   this.props.history.push("/login")
+  }
+
+  swapItem = (newProduct) => {
+
+    fetch(`${API}/user_products/swap`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: this.state.currentUser.id,
+        product_id: newProduct.id,
+        category_id: newProduct.category.id
+      })
+    })
+    .then(resp => resp.json())
+    .then(updatedProduct => {
+      const newCollection = this.state.userCollection.map(product => {
+        if (product.category.id === newProduct.category.id) {
+          return updatedProduct
+        } else {
+          return product
+        }
+      })
+      this.setState({
+        userCollection: newCollection
+      }, () => this.props.history.push("/products"))
+
     })
   }
 
+
   render(){
-    console.log("app", this.state.currentUser)
+
+    const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
+      return a.category.id - b.category.id
+    })
+
     return (
       <React.Fragment>
 
-        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome} logout={this.logout}/>
+        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} logout={this.logout} currentUser={this.state.currentUser}/>
         <Switch>
           <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
+
           <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
-          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} handleProductClick={this.handleProductClick} browse={this.state.showBrowse} currentUser={this.state.currentUser} /> } />
-          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} handleProductClick={this.handleProductClick} browse={this.state.showBrowse} />} />
+
+          <Route exact path="/products" render={(routerProps) => < MainContainer {...routerProps} products={sortedTenStepProducts} currentUser={this.state.currentUser} handleProductClick={this.handleProductClick}/> } />
+
+          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} handleProductClick={this.handleProductClick}/>} />
+
           <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}
           question={this.state.question}
           skintype={this.state.skintype}
           products={this.state.userCollection} />}/>
+
           <Route path="/products/:id" render={(routerProps)=>{
 
                 const foundProduct = this.state.allProducts.find(product => product.id === parseInt(routerProps.match.params.id))
@@ -229,7 +245,7 @@ class App extends React.Component {
                 // if a post is found based on the id in the URL, great!
                 if (this.state.currentProduct){
                   return (
-                    <ProductPage userID={this.state.currentUser.id} productID={this.state.currentProduct.id} product={foundProduct} />
+                    <ProductPage pathName="products" userID={this.state.currentUser.id} productID={this.state.currentProduct.id} product={foundProduct} />
 
                   )
                 } else {
@@ -237,8 +253,23 @@ class App extends React.Component {
                   return null
                 }
 
-
               }}/>
+
+              <Route path="/browse/:id" render={(routerProps)=>{
+
+                    const foundProduct = this.state.allProducts.find(product => product.id === parseInt(routerProps.match.params.id))
+
+                    // if a post is found based on the id in the URL, great!
+                    if (this.state.currentProduct){
+                      return (
+                        <ProductPage product={foundProduct} pathName="browse" swapItem={this.swapItem}/>
+                      )
+                    } else {
+                      // if a post is not found, then render a Redirect
+                      return null
+                    }
+
+                  }}/>
 
         </Switch>
       </React.Fragment>

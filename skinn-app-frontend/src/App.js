@@ -7,8 +7,9 @@ import QuizPage from './containers/QuizPage'
 import BrowseContainer from './containers/BrowseContainer'
 import Login from './containers/Login'
 import SignUp from './containers/SignUp'
+import ProductPage from './containers/ProductPage'
 
-import { Route, Switch } from 'react-router-dom'
+import { Route, Switch, Link, Redirect } from 'react-router-dom'
 
 
 const API = "http://localhost:3000"
@@ -21,7 +22,26 @@ class App extends React.Component {
     skintype: "",
     quiz: false,
     question: "What is your skin type?",
-    currentUser: null
+    currentUser: null,
+    currentProduct: null
+  }
+
+  handleProductClick = (propsId) => {
+    console.log("clicked!", propsId)
+    // this.props.products.map(product => {
+    //   if (product.id === propsId){
+    //     return {...product, selectedProduct: !this.selectedProduct}
+    //   } else {
+    //     return product
+    //   }
+    // })
+
+    let selectedProduct = this.state.allProducts.find(product => {
+      return product.id === propsId
+    })
+    this.setState({
+      currentProduct: selectedProduct
+    })
   }
 
   componentDidMount(){
@@ -177,20 +197,45 @@ class App extends React.Component {
   // }
 
   render(){
+    console.log("app", this.state.currentProduct)
     return (
       <React.Fragment>
         <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
+
+
         <Switch>
           <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
           <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
 
-          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} /> } />
-          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} browse={this.state.showBrowse} />} />
+          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection}
+          handleProductClick={this.handleProductClick}
+          browse={this.state.showBrowse} /> } />
+          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps}
+          handleProductClick={this.handleProductClick}
+          products={this.state.allProducts} browse={this.state.showBrowse} />} />
           <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}
           question={this.state.question}
           skintype={this.state.skintype}
           products={this.state.userCollection} />}/>
+          <Route path="/products/:id" render={(routerProps)=>{
+
+                const foundProduct = this.state.allProducts.find(product => product.id === parseInt(routerProps.match.params.id))
+
+                // if a post is found based on the id in the URL, great!
+                if (this.state.currentProduct){
+                  return (
+                    <ProductPage product={foundProduct} />
+
+                  )
+                } else {
+                  // if a post is not found, then render a Redirect
+                  return null
+                }
+
+
+              }}/>
+
         </Switch>
       </React.Fragment>
     )

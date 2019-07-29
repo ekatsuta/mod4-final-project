@@ -13,7 +13,7 @@ class NavBar extends React.Component {
           <Link to="/quiz" style={{ textDecoration: 'none' }}><button>QUIZ PAGE</button></Link>
           <Link to="/login" style={{ textDecoration: 'none' }}><button>LOG IN</button></Link>
         </div>
-        <Link to="/home" style={{ textDecoration: 'none', padding: 30 }}><h3 className="logo">SKINN</h3></Link>
+        <Link to="/home" style={{ textDecoration: 'none', padding: 50 }}><h3 className="logo">SKINN</h3></Link>
       </div>
       </React.Fragment>
 

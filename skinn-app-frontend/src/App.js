@@ -11,14 +11,14 @@ import SignUp from './containers/SignUp'
 import { Route, Switch } from 'react-router-dom'
 
 
-const API = "http://localhost:3000/"
+const API = "http://localhost:3000"
 
 class App extends React.Component {
 
   state = {
     allProducts: [], //32 products
     userCollection: [], //10 products for the main container
-    skintype: "all",
+    skintype: "",
     quiz: false,
     question: "What is your skin type?",
     currentUser: null
@@ -31,7 +31,7 @@ class App extends React.Component {
       this.setState({
         allProducts: products
       })
-      this.filterProducts()
+      // this.filterProducts()
     })
   }
 
@@ -39,11 +39,11 @@ class App extends React.Component {
     //for each category, select matching products, then select matching skintype;
     //if more than one result, randomize and choose 1
     //save the results in user_collection array
+
     const categories = this.state.allProducts.map(product => {
       return product.category.name
     })
     const uniqueCategories = [...new Set(categories)]
-
 
     const filteredProducts = this.state.allProducts.filter(product => {
       if (product.skintype === this.state.skintype || product.skintype === 'all') {
@@ -55,6 +55,7 @@ class App extends React.Component {
 
     // then iterate over this new organized array. And IF the element's length is more than 1,
     // that means we have to randomize to get 1 product per category.
+
 
     const organizedProducts = {}
 
@@ -76,22 +77,27 @@ class App extends React.Component {
       }
     }
 
+
     this.setState({
       userCollection: finalArr.flat()
     }, () => this.createUserProduct())
 
-
   }
 
   createUserProduct(){
+    debugger
     //need to first fetch (componentDidMount? or Update? THEN set the state)
-    fetch(`${API}/user_products`, {
+    fetch(`${API}/user_products/addProducts`, {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
       body: JSON.stringify(this.state)
+    })
+    .then(resp => resp.json())
+    .then(json => {
+      this.props.history.push("/home")
     })
   }
 
@@ -120,15 +126,14 @@ class App extends React.Component {
     })
   }
 
-
   handleSkintype = (event) => {
-    console.log("handle submit")
     this.setState({
       skintype: event.target.innerText.toLowerCase()
     }, () => this.filterProducts())
   }
 
   loginUser = (input) => {
+
     fetch(`${API}/login`, {
       headers: {
         "Authorization": input
@@ -137,26 +142,47 @@ class App extends React.Component {
     .then(resp => resp.json())
     .then(response => {
       this.setState({
-        currentUser: response.user
+        currentUser: response
       }, () => {
-        if (response.userProducts.length === 0) {
+        if (response.user_products.length === 0) {
           this.props.history.push("/quiz")
         } else {
-          this.props.history.push("/home")
+          const userProducts = response.user_products.map(userProduct => {
+            return userProduct.product
+          })
+          this.setState({
+            userCollection: userProducts
+          }, () => this.props.history.push("/home"))
         }
       })
 
     })
   }
 
+  // signUpUser = (input) => {
+  //   fetch(`${API}/users`, {
+  //     method: "POST",
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       Accept: 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       name: input
+  //     })
+  //   })
+  //   .then(resp => resp.json())
+  //   .then(newUser => {
+  //     debugger
+  //   })
+  // }
+
   render(){
-    console.log(this.state)
     return (
       <React.Fragment>
         <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
         <Switch>
           <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
-          <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} />} />
+          <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
 
           <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} /> } />
           <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} browse={this.state.showBrowse} />} />

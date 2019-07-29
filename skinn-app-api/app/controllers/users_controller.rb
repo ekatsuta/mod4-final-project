@@ -6,8 +6,18 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by(name: request.headers["Authorization"])
-    userProducts = user.products
+    # userProducts = user.products
 
-    render json: {user: user, userProducts: userProducts}
+    render json: user
+  end
+
+  def create
+    user = User.create(user_params)
+    render json: user
+  end
+
+  private
+  def user_params
+    params.require(:user).permit(:name)
   end
 end

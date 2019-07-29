@@ -94,7 +94,9 @@ code {
 }
 
 .quiz-page {
-  flex-direction: column
+  flex-direction: column;
+  align-items: center;
+  padding-top: 15%
 }
 
 .quiz-page h3 {
@@ -104,7 +106,23 @@ code {
 
 .quiz-buttons {
   display: flex;
-  justify-content: center
+  flex-direction: column;
+  width: 45%;
+}
+
+.quiz-buttons button {
+  display: flex;
+  justify-content: center;
+  margin: 3%;
+  font-size: 17px;
+  padding: 2%;
+  border-radius: 1%;
+  background-color: #ffedf0;
+}
+
+.quiz-buttons button:hover {
+  background-color: orange;
+  opacity: 0.5;
 }
 
 .main-container h3 {
@@ -237,17 +255,42 @@ code {
   padding-top: 15%;
   flex-direction: column;
   align-items: center;
-  font-size: 30px
+  font-size: 30px;
+
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  align-items: center
+  align-items: center;
+
 }
 
-.login-form input {
+.login-form input[type=text] {
   margin: 10%;
   font-size: 20px;
   text-align: center;
+  padding: 8px 5px;
+}
+
+.login-subcontainer {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 5%;
+  background-color: lavender;
+}
+
+.login-form input[type=submit] {
+  border-style: outset;
+  background-color: #d8f9e2;
+  color: black;
+  padding: 12px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;
+  font-size: 15px;
+  width: 100%;
 }

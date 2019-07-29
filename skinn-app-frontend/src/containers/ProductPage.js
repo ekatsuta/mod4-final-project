@@ -42,10 +42,16 @@ export default class ProductPage extends React.Component {
           console.log("one review", this.state.oneReview)
           console.log("data", data)
           //update one object in state array
-          
+          let updatedReview = this.state.reviews.map(review => {
+            if (review.id === this.state.oneReview.id){
+              return this.state.oneReview
+            } else {
+              return review
+            }
+          })
+
           this.setState({
-            reviews: [...this.state.reviews, {...this.state.oneReview}],
-            oneReview: data,
+            reviews: updatedReview,
             select: false,
           })
         })
@@ -88,7 +94,7 @@ export default class ProductPage extends React.Component {
   }
 
   handleEdit = (oneReview) => {
-    console.log("one review", oneReview)
+    // console.log("one review", oneReview)
     this.setState({
       oneReview: oneReview,
       select: true

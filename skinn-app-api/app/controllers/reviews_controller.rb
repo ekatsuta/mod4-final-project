@@ -5,11 +5,22 @@ class ReviewsController < ApplicationController
     render json: reviews
   end
 
+  def show
+    review = Review.find(params[:id])
+  end
+
   def create
     review = Review.new(review_params)
     review.save
     render json: review
 
+  end
+
+  def update
+    review = Review.find(params[:id])
+    review.update(review_params)
+    review.save
+    render json: review
   end
 
   private

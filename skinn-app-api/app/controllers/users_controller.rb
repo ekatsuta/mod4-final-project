@@ -6,8 +6,6 @@ class UsersController < ApplicationController
 
   def login
     user = User.find_by(name: request.headers["Authorization"])
-    # userProducts = user.products
-
     render json: user
   end
 

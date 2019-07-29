@@ -1,24 +1,36 @@
 import React from 'react';
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
 
-const StepCard = (props) => {
+class StepCard extends React.Component {
 
-  function renderDescription(){
+
+
+  renderDescription(){
     return (
       <div className="middle">
-        <p className="product-description">{props.product.description}</p>
+        <p className="product-description">{this.props.product.description}</p>
       </div>
     )
   }
 
-  function renderSwapButton(){
+  renderSwapButton(){
     return (
       <div className="middle">
-        <button className="swap-button">PICK ME</button>
+        <button className="swap-button" onClick={this.props.handleSwap}>LEARN MORE</button>
       </div>
     )
   }
 
+  renderSteps(){
+    return (
+      <div className="ten-step-title">
+        <p className="product-number">{this.props.category.id}</p>
+        <p className="product-category">{this.props.category.name.toUpperCase()}</p>
+      </div>
+    )
+  }
+
+  render(){
 
   return(
     <div  onClick={() => {props.handleProductClick(props.product.id)}} className={props.path === '/browse' ? "browse-card" : "step-card"}>

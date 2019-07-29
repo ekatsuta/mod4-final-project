@@ -15,17 +15,19 @@ class SignUp extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
-    //callback function here.
+    this.props.signUpUser(this.state.username)
   }
 
   render(){
     return (
       <div className="login-container">
+        <div className="login-subcontainer">
         <h3>SIGN UP</h3>
         <form className="login-form" onSubmit={this.handleSubmit}>
           <input onChange={this.handleInput} type="text" name="username" value={this.state.username} placeholder="Username"/>
-          <input type="submit" value="submit" />
+          <input type="submit" value="SUBMIT" />
         </form>
+        </div>
       </div>
     )
   }

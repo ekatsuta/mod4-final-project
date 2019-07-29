@@ -11,17 +11,14 @@ export default class QuizPage extends React.Component {
   // }
 
   render () {
-    // console.log(this.props.skin, "quiz")
-
     return (
       <React.Fragment>
       <div className="quiz-page">
         <h3>{this.props.question}</h3>
         <div className="quiz-buttons">
-          <button onClick={this.props.handleSkintype}>Dry</button>
-          <button onClick={this.props.handleSkintype}>All</button>
-          <button onClick={this.props.handleSkintype}>Combination</button>
-          <button onClick={this.props.handleSkintype}>Oily</button>
+          <button onClick={this.props.handleSkintype}>DRY</button>
+          <button onClick={this.props.handleSkintype}>COMBINATION</button>
+          <button onClick={this.props.handleSkintype}>OILY</button>
         </div>
       </div>
       </React.Fragment>

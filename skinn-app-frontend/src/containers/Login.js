@@ -22,11 +22,13 @@ class Login extends React.Component {
   render(){
     return (
       <div className="login-container">
+        <div className="login-subcontainer">
         <h3>LOGIN</h3>
         <form className="login-form" onSubmit={this.handleSubmit}>
           <input onChange={this.handleInput} type="text" name="username" value={this.state.username} placeholder="Username"/>
-          <input type="submit" value="submit" />
+          <input type="submit" value="SUBMIT" />
         </form>
+        </div>
       </div>
     )
   }

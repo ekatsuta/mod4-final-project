@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   resources :users
 
   get '/login', to: "users#login"
+  post '/user_products/addProducts', to: "user_products#add_products"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

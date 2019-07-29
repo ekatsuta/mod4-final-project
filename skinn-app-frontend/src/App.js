@@ -207,7 +207,7 @@ class App extends React.Component {
   }
 
   render(){
-    console.log("app", this.state.currentProduct)
+    console.log("app", this.state.currentUser)
     return (
       <React.Fragment>
 
@@ -215,8 +215,8 @@ class App extends React.Component {
         <Switch>
           <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
           <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
-          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} currentUser={this.state.currentUser} /> } />
-          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} browse={this.state.showBrowse} />} />
+          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} handleProductClick={this.handleProductClick} browse={this.state.showBrowse} currentUser={this.state.currentUser} /> } />
+          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} handleProductClick={this.handleProductClick} browse={this.state.showBrowse} />} />
           <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}
           question={this.state.question}
@@ -229,7 +229,7 @@ class App extends React.Component {
                 // if a post is found based on the id in the URL, great!
                 if (this.state.currentProduct){
                   return (
-                    <ProductPage product={foundProduct} />
+                    <ProductPage userID={this.state.currentUser.id} productID={this.state.currentProduct.id} product={foundProduct} />
 
                   )
                 } else {

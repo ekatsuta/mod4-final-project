@@ -21,7 +21,7 @@ const StepCard = (props) => {
 
 
   return(
-    <div onClick={() => {props.handleProductClick(props.product.id)}} className={props.path === '/browse' ? "browse-card" : "step-card"}>
+    <div  onClick={() => {props.handleProductClick(props.product.id)}} className={props.path === '/browse' ? "browse-card" : "step-card"}>
 
         <p className="product-number">{props.path === '/browse' ? null : props.idx + 1}</p>
         <p>{props.product.name}</p>

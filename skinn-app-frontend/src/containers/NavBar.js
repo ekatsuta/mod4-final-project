@@ -12,6 +12,7 @@ class NavBar extends React.Component {
         <Link to="/browse" style={{ textDecoration: 'none' }}><button>BROWSE</button></Link>
           <Link to="/quiz" style={{ textDecoration: 'none' }}><button>QUIZ PAGE</button></Link>
           <Link to="/login" style={{ textDecoration: 'none' }}><button>LOG IN</button></Link>
+          <button onClick={this.props.logout}>LOG OUT</button>
         </div>
         <Link to="/home" style={{ textDecoration: 'none', padding: 50 }}><h3 className="logo">SKINN</h3></Link>
       </div>

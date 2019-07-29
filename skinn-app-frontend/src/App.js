@@ -85,7 +85,6 @@ class App extends React.Component {
   }
 
   createUserProduct(){
-    debugger
     //need to first fetch (componentDidMount? or Update? THEN set the state)
     fetch(`${API}/user_products/addProducts`, {
       method: "POST",
@@ -133,7 +132,6 @@ class App extends React.Component {
   }
 
   loginUser = (input) => {
-
     fetch(`${API}/login`, {
       headers: {
         "Authorization": input
@@ -159,32 +157,43 @@ class App extends React.Component {
     })
   }
 
-  // signUpUser = (input) => {
-  //   fetch(`${API}/users`, {
-  //     method: "POST",
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       Accept: 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       name: input
-  //     })
-  //   })
-  //   .then(resp => resp.json())
-  //   .then(newUser => {
-  //     debugger
-  //   })
-  // }
+  signUpUser = (input) => {
+    fetch(`${API}/users`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        name: input
+      })
+    })
+    .then(resp => resp.json())
+    .then(newUser => {
+      this.setState({
+        currentUser: newUser
+      }, () => this.props.history.push("/quiz"))
+    })
+  }
+
+  logout = () => {
+    debugger
+   this.setState({
+     currentUser: null
+   }, () => {
+     // localStorage.removeItem("token")
+    this.props.history.push("/login")
+    })
+  }
 
   render(){
     return (
       <React.Fragment>
-        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome}/>
+        <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} handleBrowse={this.handleBrowse} handleHome={this.handleHome} logout={this.logout}/>
         <Switch>
           <Route exact path="/login" render={(routerProps) => <Login {...routerProps} loginUser={this.loginUser}/>} />
           <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
-
-          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} /> } />
+          <Route exact path="/home" render={(routerProps) => < MainContainer {...routerProps} products={this.state.userCollection} browse={this.state.showBrowse} currentUser={this.state.currentUser} /> } />
           <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} browse={this.state.showBrowse} />} />
           <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}

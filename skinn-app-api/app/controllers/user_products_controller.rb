@@ -9,7 +9,6 @@ class UserProductsController < ApplicationController
     userCollection = params["userCollection"]
     currentUserId = params["currentUser"]["id"]
     newCollection = UserProduct.createUserProduct(userCollection, currentUserId)
-    byebug
     render json: newCollection
   end
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import StarRating from './StarRating'
 
 class ReviewCard extends React.Component {
 
@@ -6,7 +7,9 @@ class ReviewCard extends React.Component {
     // console.log("Review card", this.props.review)
     return(
       <div>
-        <h3> {this.props.review.rating}</h3>
+        <strong>Rating: </strong>
+        <StarRating rating={this.props.review.rating} />
+        <br />
         <p> {this.props.review.notes}</p>
         <button onClick={() => {this.props.handleEdit(this.props.review)}}>Edit Review</button>
         <button onClick={() => {this.props.handleDelete(this.props.review)}}>Delete Review</button>

@@ -1,5 +1,4 @@
 import React from 'react'
-import MainContainer from './MainContainer'
 
 export default class QuizPage extends React.Component {
 

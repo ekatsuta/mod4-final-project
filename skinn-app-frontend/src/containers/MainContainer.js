@@ -4,6 +4,7 @@ import StepCard from '../components/StepCard'
 class MainContainer extends React.Component {
 
   render(){
+    debugger
     return(
       <div className="main-container">
         <h3>Hi {this.props.currentUser.name}!</h3>

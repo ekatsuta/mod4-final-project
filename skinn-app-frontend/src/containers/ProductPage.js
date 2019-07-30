@@ -114,7 +114,7 @@ export default class ProductPage extends React.Component {
       .then( data => {
         console.log("removed", data)
         var newItems = this.state.reviews.filter((review) => {
-          return review.id != thing.id});
+          return review.id !== thing.id});
       this.setState({ reviews: newItems });
       })
   }
@@ -150,7 +150,7 @@ export default class ProductPage extends React.Component {
           <div className="product-page-info">
             <h3> {this.props.product.name} </h3>
             <div className="product-page-image-container">
-              <img src={this.props.product.img_path} />
+              <img src={this.props.product.img_path} alt="product"/>
             </div>
           </div>
           <div className="product-page-description">

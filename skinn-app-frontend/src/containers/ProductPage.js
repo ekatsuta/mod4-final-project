@@ -123,7 +123,7 @@ export default class ProductPage extends React.Component {
     let filteredReviews = this.state.reviews.filter(review => review.product_id === this.props.product.id)
     // console.log("Render", filteredReviews)
     return filteredReviews.map(review => {
-      return <ReviewCard user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
+      return <ReviewCard users={this.props.users} user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
 

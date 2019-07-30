@@ -22,7 +22,8 @@ class App extends React.Component {
     quiz: false,
     question: "What is your skin type?",
     currentUser: null,
-    currentProduct: null
+    currentProduct: null,
+    allUsers: []
   }
 
   handleProductClick = (propsId) => {
@@ -41,7 +42,7 @@ class App extends React.Component {
     .then(products => {
       this.setState({
         allProducts: products
-      })
+      }, () => this.fetchUsers())
       // this.filterProducts()
     })
   }
@@ -213,8 +214,20 @@ class App extends React.Component {
     })
   }
 
+  fetchUsers = () => {
+    fetch('http://localhost:3000/users')
+      .then(r => r.json())
+      .then(data => {
+        this.setState({
+          allUsers: data
+        })
+
+      })
+  }
+
 
   render(){
+    // console.log("Users", this.state.allUsers)
 
     const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
       return a.category.id - b.category.id
@@ -254,7 +267,7 @@ class App extends React.Component {
                 // if a post is found based on the id in the URL, great!
                 if (this.state.currentProduct){
                   return (
-                    <ProductPage pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} />
+                    <ProductPage users={this.state.allUsers} pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} />
 
                   )
                 } else {
@@ -271,7 +284,8 @@ class App extends React.Component {
                     // if a post is found based on the id in the URL, great!
                     if (this.state.currentProduct){
                       return (
-                        <ProductPage product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem}/>
+                        <ProductPage users={this.state.allUsers}
+                        product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem}/>
                       )
                     } else {
                       // if a post is not found, then render a Redirect

@@ -1,6 +1,7 @@
 import React from 'react';
 import StarRatingInput from "../components/StarRatingInput";
 import ReviewCard from "../components/ReviewCard";
+import StarRating from '../components/StarRating'
 import { Link } from 'react-router-dom'
 
 export default class ProductPage extends React.Component {
@@ -11,6 +12,7 @@ export default class ProductPage extends React.Component {
     reviews: [],
     oneReview: null,
     select: false,
+
   }
 
   handleChange = (event) => {
@@ -18,8 +20,6 @@ export default class ProductPage extends React.Component {
       oneReview: {...this.state.oneReview, [event.target.name]: event.target.value}
     });
   };
-
-
 
   handleSubmit = event => {
     event.preventDefault();
@@ -43,7 +43,6 @@ export default class ProductPage extends React.Component {
           console.log("one review", this.state.oneReview)
           console.log("data", data)
           //update one object in state array
-
           let updatedReview = this.state.reviews.map(review => {
             if (review.id === this.state.oneReview.id){
               return this.state.oneReview
@@ -51,7 +50,6 @@ export default class ProductPage extends React.Component {
               return review
             }
           })
-
 
           this.setState({
             reviews: updatedReview,
@@ -127,7 +125,6 @@ export default class ProductPage extends React.Component {
       return <ReviewCard key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
-
   renderPickItemBtn(){
     return (
       <button onClick={() => this.props.swapItem(this.props.product)}>PICK ITEM</button>
@@ -140,15 +137,37 @@ export default class ProductPage extends React.Component {
     )
   }
 
+    averageRating = (arr) => {
+      const filteredReviews = this.state.reviews.filter(review => review.product_id === this.props.product.id)
+      const sum = filteredReviews.map(review => {
+        return review.rating
+      })
+      const arrSum = (sum) => {
+        return sum.reduce((a,b) => {
+          return a + b
+        }, 0) / sum.length
+      }
+      return arrSum(sum)
+
+      // let arrAvg = sum => sum.reduce((a,b) => a + b, 0) / sum.length
+      console.log("avg", arrSum(sum))
+      // this.setState({
+      //   avgRating: avg
+      // })
+
+    }
 
   render () {
-    console.log("productPage", this.state)
+    console.log("productPage", this.props)
     return (
       <div>
 
         <div className="product-page">
           <div className="product-page-info">
-            <h3> {this.props.product.name} </h3>
+            <h3> {this.props.product.name}, avg rating: {this.averageRating(this.state.reviews)} </h3>
+            <div>
+            <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)} color="green"/>
+            </div>
             <div className="product-page-image-container">
               <img src={this.props.product.img_path} />
             </div>
@@ -181,7 +200,6 @@ export default class ProductPage extends React.Component {
         </div>
 
       </div>
-
     )
   }
 }

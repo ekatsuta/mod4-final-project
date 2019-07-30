@@ -252,7 +252,7 @@ class App extends React.Component {
                 // if a post is found based on the id in the URL, great!
                 if (this.state.currentProduct){
                   return (
-                    <ProductPage pathName="products" userID={this.state.currentUser.id} productID={this.state.currentProduct.id} product={foundProduct} />
+                    <ProductPage pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} />
 
                   )
                 } else {

@@ -8,7 +8,7 @@ export default class ProductPage extends React.Component {
   //review forms
   state = {
     notes: "",
-    rating: 1,
+    rating: 0,
     reviews: [],
     oneReview: null,
     select: false,
@@ -17,7 +17,8 @@ export default class ProductPage extends React.Component {
 
   handleChange = (event) => {
     this.setState({
-      oneReview: {...this.state.oneReview, [event.target.name]: event.target.value}
+      oneReview: {...this.state.oneReview, [event.target.name]: event.target.value},
+      [event.target.name]: event.target.value
     });
   };
 
@@ -35,7 +36,7 @@ export default class ProductPage extends React.Component {
           rating: this.state.oneReview.rating,
           notes: this.state.oneReview.notes,
           product_id: this.props.productID,
-          user_id: this.props.userID
+          user_id: this.props.userID.id
         })
       })
         .then(r => r.json())
@@ -68,7 +69,7 @@ export default class ProductPage extends React.Component {
           rating: this.state.oneReview.rating,
           notes: this.state.oneReview.notes,
           product_id: this.props.productID,
-          user_id: this.props.userID
+          user_id: this.props.userID.id
         })
       })
         .then(res => res.json())
@@ -122,7 +123,7 @@ export default class ProductPage extends React.Component {
     let filteredReviews = this.state.reviews.filter(review => review.product_id === this.props.product.id)
     // console.log("Render", filteredReviews)
     return filteredReviews.map(review => {
-      return <ReviewCard key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
+      return <ReviewCard user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
   renderPickItemBtn(){
@@ -158,13 +159,13 @@ export default class ProductPage extends React.Component {
     }
 
   render () {
-    console.log("productPage", this.props)
+    console.log("productPage", this.props, "state", this.state)
     return (
       <div>
 
         <div className="product-page">
           <div className="product-page-info">
-            <h3> {this.props.product.name}, avg rating: {this.averageRating(this.state.reviews)} </h3>
+            <h3> {this.props.product.name}, avg rating: </h3>
             <div>
             <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)} color="green"/>
             </div>
@@ -179,11 +180,13 @@ export default class ProductPage extends React.Component {
             <p>{this.props.product.description} </p>
             {this.props.pathName === "browse" ? this.renderPickItemBtn() : this.renderBrowseCategoryBtn()}
           <form className="review-form" onSubmit={this.handleSubmit}>
-
+          <div>
             <StarRatingInput
+            maxRating={5}
             value={this.state.oneReview ? this.state.oneReview.rating : this.state.rating}
             name="rating"
             onClick={this.handleChange}/>
+          </div>
             <br />
             <textarea onChange={this.handleChange} name="notes" value={this.state.oneReview ? this.state.oneReview.notes : this.state.notes} rows="4" cols="50" type="text" placeholder="Review product here"/>
             <input type="submit" value="Submit" />

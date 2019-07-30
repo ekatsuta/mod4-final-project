@@ -30,6 +30,7 @@ class StepCard extends React.Component {
   }
 
   render(){
+    console.log("step card", this.props.product)
     return(
       <div  onClick={() => {this.props.handleProductClick(this.props.product.id)}} className={this.props.pathName === 'browse' ? "browse-card" : "step-card"}>
 

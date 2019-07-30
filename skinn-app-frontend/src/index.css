@@ -356,7 +356,7 @@ code {
 .product-page {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center
 }
 
@@ -366,6 +366,10 @@ code {
   width: 45%;
   font-style: italic;
   margin: 2%;
+}
+
+.product-page-description h3 {
+  font-family: 'Lora', serif;
 }
 
 .product-page-info {
@@ -391,9 +395,25 @@ code {
 }
 
 .review-form input[type=submit]{
-  margin-top: 2%
+  margin-top: 2%;
+  background-color: #d8f9e2;
+  font-size: 14px
 }
 
-.review-form input[type=text]{
-  height: 100px
+.review-form input[type=submit]:hover {
+  background-color: orange
+}
+
+.reviews-container {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  margin: 5%;
+}
+
+.review-card {
+  display: block;
+  border-style: outset;
+  padding: 5%;
 }

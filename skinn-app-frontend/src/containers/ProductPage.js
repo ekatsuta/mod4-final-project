@@ -126,6 +126,7 @@ export default class ProductPage extends React.Component {
       return <ReviewCard user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
+
   renderPickItemBtn(){
     return (
       <button onClick={() => this.props.swapItem(this.props.product)}>PICK ITEM</button>

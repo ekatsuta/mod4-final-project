@@ -30,12 +30,12 @@ class StepCard extends React.Component {
   }
 
   render(){
-
+    console.log(this.props.product)
     return(
       <div  onClick={() => {this.props.handleProductClick(this.props.product.id)}} className={this.props.pathName === 'browse' ? "browse-card" : "step-card"}>
 
           {this.props.pathName === 'browse' ? null : this.renderSteps() }
-          <Link to={`/products/${this.props.product.id}`}>
+          <Link to={`/${this.props.pathName}/${this.props.product.id}`}>
             <div className="product-image-container">
               <img className="product-image" src={this.props.product.img_path} alt="product"/>
               {this.props.pathName === 'browse' ? this.renderSwapButton() : this.renderDescription()}

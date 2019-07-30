@@ -1,6 +1,7 @@
 import React from 'react';
 import StarRatingInput from "../components/StarRatingInput";
 import ReviewCard from "../components/ReviewCard";
+import { Link } from 'react-router-dom'
 
 export default class ProductPage extends React.Component {
   //review forms
@@ -42,7 +43,7 @@ export default class ProductPage extends React.Component {
           console.log("one review", this.state.oneReview)
           console.log("data", data)
           //update one object in state array
-          
+
           this.setState({
             reviews: [...this.state.reviews, {...this.state.oneReview}],
             oneReview: data,
@@ -105,13 +106,42 @@ export default class ProductPage extends React.Component {
     })
   }
 
+  renderPickItemBtn(){
+    return (
+      <button onClick={() => this.props.swapItem(this.props.product)}>PICK ITEM</button>
+    )
+  }
+
+  renderBrowseCategoryBtn(){
+    debugger
+    return (
+      <Link to={`/categories/${this.props.product.category.id}`}>BROWSE MORE ITEMS</Link>
+    )
+  }
+
+
   render () {
     console.log("productPage", this.state)
     return (
       <div>
-        <h3> product page </h3>
-        <h3> product page </h3>
-        <h3> {this.props.product.name} </h3>
+
+        <div className="product-page">
+          <div className="product-page-info">
+            <h3> {this.props.product.name} </h3>
+            <div className="product-page-image-container">
+              <img src={this.props.product.img_path} />
+            </div>
+          </div>
+          <div className="product-page-description">
+            <h3>Brand</h3>
+            <p>{this.props.product.brand}</p>
+            <h3>Description</h3>
+            <p>{this.props.product.description} </p>
+            {this.props.pathName === "browse" ? this.renderPickItemBtn() : this.renderBrowseCategoryBtn()}
+          </div>
+        </div>
+
+
         <form onSubmit={this.handleSubmit}>
 
           <StarRatingInput

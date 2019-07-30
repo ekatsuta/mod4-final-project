@@ -7,7 +7,7 @@ import QuizPage from './containers/QuizPage'
 import BrowseContainer from './containers/BrowseContainer'
 import Login from './containers/Login'
 import SignUp from './containers/SignUp'
-import ProductPage from './components/ProductPage'
+import ProductPage from './containers/ProductPage'
 
 import { Route, Switch, Link, Redirect } from 'react-router-dom'
 
@@ -237,6 +237,14 @@ class App extends React.Component {
           question={this.state.question}
           skintype={this.state.skintype}
           products={this.state.userCollection} />}/>
+
+          <Route exact path="/categories/:id" render={(routerProps)=> {
+            const products = this.state.allProducts.filter(product => product.category.id === parseInt(routerProps.match.params.id))
+
+            return (
+              <BrowseContainer {...routerProps} products={products} handleProductClick={this.handleProductClick}/>
+            )
+          }}/>
 
           <Route path="/products/:id" render={(routerProps)=>{
 

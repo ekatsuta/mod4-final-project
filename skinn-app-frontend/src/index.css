@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
@@ -86,7 +87,7 @@ code {
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f9f9f9;
+  background-color: #f9f1da;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -94,15 +95,18 @@ code {
 
 .dropdown-content a {
   float: none;
-  color: black;
+  color: #383734;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
   text-align: left;
+  font-size: 14px
 }
 
 .dropdown-content a:hover {
-  background-color: #ddd;
+  background-color: #ffd14e;
+  color: white;
+  font-weight: bold
 }
 
 .dropdown:hover .dropdown-content {
@@ -234,9 +238,8 @@ code {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  padding: 6% 0 0 0
-  /* padding: 3% 2% 10% 2%; */
+  justify-content: space-around;
+  padding: 12% 0 0 0
 }
 
 .category-container {
@@ -288,7 +291,7 @@ code {
   width: 100%;
   display: flex;
   justify-content: center;
-  padding-top: 15%;
+  padding-top: 18%;
   flex-direction: column;
   align-items: center;
   font-size: 30px;
@@ -317,6 +320,7 @@ code {
   align-items: center;
   padding: 5%;
   background-color: lavender;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
 }
 
 .login-form input[type=submit] {

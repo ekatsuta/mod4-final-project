@@ -4,7 +4,6 @@ import { Route, Switch, Link, Redirect } from 'react-router-dom'
 class StepCard extends React.Component {
 
 
-
   renderDescription(){
     return (
       <div className="middle">
@@ -31,21 +30,21 @@ class StepCard extends React.Component {
   }
 
   render(){
+    return(
+      <div  onClick={() => {this.props.handleProductClick(this.props.product.id)}} className={this.props.pathName === 'browse' ? "browse-card" : "step-card"}>
 
-  return(
-    <div  onClick={() => {props.handleProductClick(props.product.id)}} className={props.path === '/browse' ? "browse-card" : "step-card"}>
-
-        <p className="product-number">{props.path === '/browse' ? null : props.idx + 1}</p>
-        <p>{props.product.name}</p>
-        <p>{props.product.brand}</p>
-        <Link to={`/products/${props.product.id}`}>
-          <div className="product-image-container">
-            <img className="product-image" src={props.product.img_path} />
-            {props.path === '/browse' ? renderSwapButton() : renderDescription()}
-          </div>
-        </Link>
-    </div>
-  )
+          {this.props.pathName === 'browse' ? null : this.renderSteps() }
+          <Link to={`/products/${this.props.product.id}`}>
+            <div className="product-image-container">
+              <img className="product-image" src={this.props.product.img_path} />
+              {this.props.pathName === 'browse' ? this.renderSwapButton() : this.renderDescription()}
+            </div>
+          </Link>
+          <p>{this.props.product.name}</p>
+          <p>{this.props.product.brand}</p>
+      </div>
+    )
+  }
 }
 
 export default StepCard

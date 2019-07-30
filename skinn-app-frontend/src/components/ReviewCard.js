@@ -6,7 +6,7 @@ class ReviewCard extends React.Component {
   render() {
     // console.log("Review card", this.props.review)
     return(
-      <div>
+      <div className="review-card">
         <strong>Rating: </strong>
         <StarRating rating={this.props.review.rating} />
         <br />

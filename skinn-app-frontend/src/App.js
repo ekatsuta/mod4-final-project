@@ -27,7 +27,6 @@ class App extends React.Component {
   }
 
   handleProductClick = (propsId) => {
-    console.log("clicked!", propsId)
 
     let selectedProduct = this.state.allProducts.find(product => {
       return product.id === propsId

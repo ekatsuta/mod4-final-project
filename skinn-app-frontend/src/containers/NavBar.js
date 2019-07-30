@@ -10,18 +10,16 @@ class NavBar extends React.Component {
         <div className="dropdown">
         <Link to="/browse" style={{ textDecoration: 'none' }} className="dropbtn"><button>BROWSE</button></Link>
           <div class="dropdown-content">
-            <a href="#">Oil Cleansers</a>
-            <a href="#">Water Base Cleansers</a>
-            <a href="#">Exfoliator</a>
-            <a href="#">Toner</a>
-            <a href="#">Serum</a>
-            <a href="#">Mask</a>
-            <a href="#">Eyecream</a>
-            <a href="#">Moisturizer</a>
-            <a href="#">Sunscreen</a>
-            <a href="#">Facial Oil</a>
-
-
+            <Link to="/categories/1">Oil Cleansers</Link>
+            <Link to="/categories/2">Water Base Cleansers</Link>
+            <Link to="/categories/3">Exfoliator</Link>
+            <Link to="/categories/4">Toner</Link>
+            <Link to="/categories/5">Serum</Link>
+            <Link to="/categories/6">Mask</Link>
+            <Link to="/categories/7">Eyecream</Link>
+            <Link to="/categories/8">Moisturizer</Link>
+            <Link to="/categories/9">Sunscreen</Link>
+            <Link to="/categories/10">Facial Oil</Link>
           </div>
         </div>
       <Link to="/quiz" style={{ textDecoration: 'none' }}><button>RETAKE QUIZ</button></Link>

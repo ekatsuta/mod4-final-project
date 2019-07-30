@@ -123,7 +123,7 @@ export default class ProductPage extends React.Component {
     let filteredReviews = this.state.reviews.filter(review => review.product_id === this.props.product.id)
     // console.log("Render", filteredReviews)
     return filteredReviews.map(review => {
-      return <ReviewCard user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
+      return <ReviewCard users={this.props.users} user={this.props.userID} key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
 
@@ -160,10 +160,12 @@ export default class ProductPage extends React.Component {
 
         <div className="product-page">
           <div className="product-page-info">
-            <h3> {this.props.product.name}, avg rating: </h3>
-            <div>
-            <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)} color="green"/>
+            <h3> {this.props.product.name}</h3>
+            <h4> Average Rating:  <div>
+                <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)}/>
             </div>
+            </h4>
+
             <div className="product-page-image-container">
               <img src={this.props.product.img_path} alt="product"/>
             </div>

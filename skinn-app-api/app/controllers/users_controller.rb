@@ -4,18 +4,22 @@ class UsersController < ApplicationController
     render json: users
   end
 
-  def login
-    user = User.find_by(name: request.headers["Authorization"])
-    render json: user
-  end
-
   def create
-    user = User.create(user_params)
-    render json: user
+    user = User.new(
+      username: params[:username],
+      password: params[:password],
+      name: params[:name])
+
+    if user.save
+      render json: user
+    else
+      render json: {errors: user.errors.full_messages}
+    end
+
   end
 
-  private
-  def user_params
-    params.require(:user).permit(:name)
-  end
+  # private
+  # def user_params
+  #   params.require(:user).permit(:name, :username, :password)
+  # end
 end

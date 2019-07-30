@@ -7,22 +7,22 @@ import BrowseContainer from './containers/BrowseContainer'
 import Login from './containers/Login'
 import SignUp from './containers/SignUp'
 import ProductPage from './containers/ProductPage'
-
 import { Route, Switch } from 'react-router-dom'
 
-
+// Endpoint
 const API = "http://localhost:3000"
 
 class App extends React.Component {
 
   state = {
-    allProducts: [], //32 products
-    userCollection: [], //10 products for the main container
+    allProducts: [],
+    userCollection: [], 
     skintype: "",
     quiz: false,
     question: "What is your skin type?",
     currentUser: null,
-    currentProduct: null
+    currentProduct: null,
+    // loading: true
   }
 
   handleProductClick = (propsId) => {
@@ -42,9 +42,35 @@ class App extends React.Component {
       this.setState({
         allProducts: products
       })
-      // this.filterProducts()
     })
+
+    // const user_id = localStorage.user_id
+    // if (user_id){
+    //   fetch(`${API}/auto_login`, {
+    //     headers: {
+    //       "Authorization": user_id
+    //     }
+    //   })
+    //   .then(resp => resp.json())
+    //   .then(response => {
+    //     if (response.errors){
+    //       alert(response.errors)
+    //     } else {
+    //       this.setState({
+    //         currentUser: response.user,
+    //         userCollection: response.userCollection,
+    //         loading: false
+    //       })
+    //     }
+    //   })
+    // } else {
+    //   this.props.history.push('/login')
+    //   this.setState({
+    //     loading: false
+    //   })
+    // }
   }
+
 
   filterProducts(){
     //for each category, select matching products, then select matching skintype;
@@ -134,52 +160,80 @@ class App extends React.Component {
 
   loginUser = (input) => {
     fetch(`${API}/login`, {
+      method: "POST",
       headers: {
-        "Authorization": input
-      }
+        "Content-Type": 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        username: input.username,
+        password: input.password
+      })
     })
     .then(resp => resp.json())
     .then(response => {
-      this.setState({
-        currentUser: response
-      }, () => {
-        if (response.user_products.length === 0) {
-          this.props.history.push("/quiz")
-        } else {
-          const userProducts = response.user_products
-          this.setState({
-            userCollection: userProducts
-          }, () => this.props.history.push("/products"))
-        }
-      })
-
+      if (response.errors) {
+        alert(response.errors)
+      } else {
+        this.setState({
+          currentUser: response
+        }, () => {
+          if (response.user_products.length === 0) {
+            localStorage.user_id = response.id
+            this.props.history.push("/quiz")
+          } else {
+            const userProducts = response.user_products
+            this.setState({
+              userCollection: userProducts
+            }, () => {
+              localStorage.user_id = response.id
+              this.props.history.push("/products")
+            })
+          }
+        })
+      }
     })
   }
 
   signUpUser = (input) => {
-    fetch(`${API}/users`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        name: input
+    if (input.password === input.passwordConfirmation) {
+      fetch(`${API}/signup`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          name: input.name,
+          username: input.username,
+          password: input.password
+        })
       })
-    })
-    .then(resp => resp.json())
-    .then(newUser => {
-      this.setState({
-        currentUser: newUser
-      }, () => this.props.history.push("/quiz"))
-    })
+      .then(resp => resp.json())
+      .then(response => {
+        if (response.errors){
+          alert(response.errors)
+        } else {
+          this.setState({
+            currentUser: response
+          }, () => {
+            localStorage.user_id = response.id
+            this.props.history.push("/quiz")}
+          )
+        }
+
+      })
+    } else {
+      alert("Passwords don't match!")
+    }
+
   }
 
   logout = () => {
    this.setState({
      currentUser: null
    })
-
+   localStorage.removeItem("user_id")
    this.props.history.push("/login")
   }
 
@@ -215,11 +269,18 @@ class App extends React.Component {
 
 
   render(){
-
     const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
       return a.category.id - b.category.id
     })
 
+    // if (this.state.loading) {
+    //   return (
+    //     <React.Fragment>
+    //       <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} logout={this.logout} currentUser={this.state.currentUser}/>
+    //       Loading...
+    //     </React.Fragment>
+    //   )
+    // }
     return (
       <React.Fragment>
 
@@ -229,21 +290,21 @@ class App extends React.Component {
 
           <Route exact path="/signup" render={(routerProps) => <SignUp {...routerProps} signUpUser={this.signUpUser}/>} />
 
-          <Route exact path="/products" render={(routerProps) => < MainContainer {...routerProps} products={sortedTenStepProducts} currentUser={this.state.currentUser} handleProductClick={this.handleProductClick}/> } />
+          <Route exact path="/products" render={(routerProps) => < MainContainer {...routerProps} products={sortedTenStepProducts} currentUser={this.state.currentUser} handleProductClick={this.handleProductClick} getCurrentUser={this.getCurrentUser}/> } />
 
-          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} handleProductClick={this.handleProductClick}/>} />
+          <Route exact path="/browse" render={(routerProps) => <BrowseContainer {...routerProps} products={this.state.allProducts} handleProductClick={this.handleProductClick} getCurrentUser={this.getCurrentUser}/>} />
 
           <Route exact path="/quiz" render={(routerProps) => <QuizPage {...routerProps}
           handleSkintype={this.handleSkintype}
           question={this.state.question}
           skintype={this.state.skintype}
-          products={this.state.userCollection} />}/>
+          products={this.state.userCollection} getCurrentUser={this.getCurrentUser}/>}/>
 
           <Route exact path="/categories/:id" render={(routerProps)=> {
             const products = this.state.allProducts.filter(product => product.category.id === parseInt(routerProps.match.params.id))
 
             return (
-              <BrowseContainer {...routerProps} products={products} handleProductClick={this.handleProductClick}/>
+              <BrowseContainer {...routerProps} products={products} handleProductClick={this.handleProductClick} getCurrentUser={this.getCurrentUser}/>
             )
           }}/>
 
@@ -254,7 +315,7 @@ class App extends React.Component {
                 // if a post is found based on the id in the URL, great!
                 if (this.state.currentProduct){
                   return (
-                    <ProductPage pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} />
+                    <ProductPage pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} getCurrentUser={this.getCurrentUser}/>
 
                   )
                 } else {
@@ -271,7 +332,7 @@ class App extends React.Component {
                     // if a post is found based on the id in the URL, great!
                     if (this.state.currentProduct){
                       return (
-                        <ProductPage product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem}/>
+                        <ProductPage product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem} getCurrentUser={this.getCurrentUser}/>
                       )
                     } else {
                       // if a post is not found, then render a Redirect

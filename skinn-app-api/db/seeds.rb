@@ -11,10 +11,6 @@ Category.destroy_all
 Product.destroy_all
 
 
-
-User.create(name: "Emi")
-User.create(name: "Catherine")
-
 Category.create(name: "oil cleanser")
 Category.create(name: "water based cleanser")
 Category.create(name: "exfoliator")
@@ -25,8 +21,6 @@ Category.create(name: "eyecream")
 Category.create(name: "moisturizer")
 Category.create(name: "sunscreen")
 Category.create(name: "facial oil")
-
-Product.create(name: "", brand: "", description: "", skintype: "", category_id: 1, img_path: "")
 
 # Oil Cleanser
 

@@ -135,7 +135,6 @@ export default class ProductPage extends React.Component {
   }
 
   renderBrowseCategoryBtn(){
-    debugger
     return (
       <Link to={`/categories/${this.props.product.category.id}`}>BROWSE MORE ITEMS</Link>
     )
@@ -160,20 +159,21 @@ export default class ProductPage extends React.Component {
             <h3>Description</h3>
             <p>{this.props.product.description} </p>
             {this.props.pathName === "browse" ? this.renderPickItemBtn() : this.renderBrowseCategoryBtn()}
+          <form className="review-form" onSubmit={this.handleSubmit}>
+
+            <StarRatingInput
+            value={this.state.oneReview ? this.state.oneReview.rating : this.state.rating}
+            name="rating"
+            onClick={this.handleChange}/>
+            <br />
+            <textarea onChange={this.handleChange} name="notes" value={this.state.oneReview ? this.state.oneReview.notes : this.state.notes} rows="4" cols="50" type="text" placeholder="Review product here"/>
+            <input type="submit" value="Submit" />
+          </form>
           </div>
         </div>
 
 
-        <form onSubmit={this.handleSubmit}>
 
-          <StarRatingInput
-          value={this.state.oneReview ? this.state.oneReview.rating : this.state.rating}
-          name="rating"
-          onClick={this.handleChange}/>
-          <br />
-          <textarea onChange={this.handleChange} name="notes" value={this.state.oneReview ? this.state.oneReview.notes : this.state.notes} rows="4" cols="50" type="text" placeholder="Review product here"/>
-          <input type="submit" value="Submit" />
-        </form>
         <div className="reviews-container">
           {
             this.renderReviews()

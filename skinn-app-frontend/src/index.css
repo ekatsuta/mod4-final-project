@@ -364,7 +364,8 @@ code {
   display: flex;
   flex-direction: column;
   width: 45%;
-  font-style: italic
+  font-style: italic;
+  margin: 2%;
 }
 
 .product-page-info {
@@ -378,4 +379,21 @@ code {
 }
 .product-page img {
   width: 100%;
+}
+
+/* Review form styling */
+.review-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5%;
+  width: 100%
+}
+
+.review-form input[type=submit]{
+  margin-top: 2%
+}
+
+.review-form input[type=text]{
+  height: 100px
 }

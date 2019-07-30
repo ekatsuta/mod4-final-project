@@ -102,12 +102,26 @@ export default class ProductPage extends React.Component {
 
   }
 
+  handleDelete = (thing) => {
+    console.log("delete this review", thing.id)
+    fetch(`http://localhost:3000/reviews/${thing.id}`, {
+      method: "DELETE",
+    })
+      .then( r => r.json())
+      .then( data => {
+        console.log("removed", data)
+        var newItems = this.state.reviews.filter((review) => {
+          return review.id != thing.id});
+      this.setState({ reviews: newItems });
+      })
+  }
+
 
   renderReviews = () => {
     let filteredReviews = this.state.reviews.filter(review => review.product_id === this.props.product.id)
     // console.log("Render", filteredReviews)
     return filteredReviews.map(review => {
-      return <ReviewCard key={review.id} review={review} handleEdit={this.handleEdit} />
+      return <ReviewCard key={review.id} review={review} handleEdit={this.handleEdit} handleDelete={this.handleDelete} />
     })
   }
 

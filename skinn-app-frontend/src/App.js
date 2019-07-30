@@ -16,7 +16,7 @@ class App extends React.Component {
 
   state = {
     allProducts: [],
-    userCollection: [], 
+    userCollection: [],
     skintype: "",
     quiz: false,
     question: "What is your skin type?",
@@ -41,10 +41,7 @@ class App extends React.Component {
     .then(products => {
       this.setState({
         allProducts: products
-      })
-
       }, () => this.fetchUsers())
-    
 
     })
 
@@ -284,6 +281,7 @@ class App extends React.Component {
 
 
   render(){
+    console.log("app", this.state.allUsers)
 
     const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
       return a.category.id - b.category.id

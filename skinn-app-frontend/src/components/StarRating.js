@@ -10,7 +10,7 @@ function StarRating({ rating, maxRating, symbol, color }) {
         className="full-stars"
         style={{
           width: `${(rating / maxRating) * 100}%`,
-          WebkitTextStroke: `1px ${color}`
+          WebkitTextStroke: `8px ${color}`
         }}
       >
         {symbol.repeat(maxRating)}
@@ -22,8 +22,8 @@ function StarRating({ rating, maxRating, symbol, color }) {
 StarRating.defaultProps = {
   rating: 0,
   maxRating: 5,
-  symbol: "★",
-  color: "goldenrod"
+  symbol: "🌿",
+  color: "transparent"
 };
 
 export default StarRating;

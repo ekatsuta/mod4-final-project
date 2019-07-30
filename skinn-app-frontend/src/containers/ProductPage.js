@@ -166,10 +166,12 @@ export default class ProductPage extends React.Component {
 
         <div className="product-page">
           <div className="product-page-info">
-            <h3> {this.props.product.name}, avg rating: </h3>
-            <div>
-            <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)} color="green"/>
+            <h3> {this.props.product.name}</h3>
+            <h4> Average Rating:  <div>
+                <StarRating maxRating={5} rating={this.averageRating(this.state.reviews)}/>
             </div>
+            </h4>
+
             <div className="product-page-image-container">
               <img src={this.props.product.img_path} alt="product"/>
             </div>

@@ -21,7 +21,7 @@ function StarRatingInput({ value, maxRating, symbol, color, name, onClick }) {
         className="full-stars"
         style={{
           width: `${(value / maxRating) * 100}%`,
-          WebkitTextStroke: `1px ${color}`
+          WebkitTextStroke: `8px ${color}`
         }}
       >
         {symbol.repeat(maxRating)}
@@ -33,8 +33,8 @@ function StarRatingInput({ value, maxRating, symbol, color, name, onClick }) {
 StarRatingInput.defaultProps = {
   value: 0,
   maxRating: 5,
-  symbol: "★",
-  color: "goldenrod"
+  symbol: "🌿",
+  color: "transparent"
 };
 
 export default StarRatingInput;

@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import MainContainer from './containers/MainContainer'
 import NavBar from './containers/NavBar'
@@ -9,7 +8,7 @@ import Login from './containers/Login'
 import SignUp from './containers/SignUp'
 import ProductPage from './containers/ProductPage'
 
-import { Route, Switch, Link, Redirect } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 
 
 const API = "http://localhost:3000"
@@ -52,10 +51,10 @@ class App extends React.Component {
     //if more than one result, randomize and choose 1
     //save the results in user_collection array
 
-    const categories = this.state.allProducts.map(product => {
-      return product.category.name
-    })
-    const uniqueCategories = [...new Set(categories)]
+    // const categories = this.state.allProducts.map(product => {
+    //   return product.category.name
+    // })
+    // const uniqueCategories = [...new Set(categories)]
 
     const filteredProducts = this.state.allProducts.filter(product => {
       if (product.skintype === this.state.skintype || product.skintype === 'all') {
@@ -89,13 +88,11 @@ class App extends React.Component {
       }
     }
 
-    this.setState({
-      userCollection: finalArr.flat()
-    }, () => this.createUserProduct())
+    this.createUserProduct(finalArr.flat())
 
   }
 
-  createUserProduct(){
+  createUserProduct(userCollection){
     //need to first fetch (componentDidMount? or Update? THEN set the state)
     fetch(`${API}/user_products/addProducts`, {
       method: "POST",
@@ -103,11 +100,16 @@ class App extends React.Component {
         'Content-Type': 'application/json',
         Accept: 'application/json'
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify({
+        userCollection: userCollection,
+        currentUser: this.state.currentUser
+      })
     })
     .then(resp => resp.json())
     .then(json => {
-      this.props.history.push("/products")
+      this.setState({
+        userCollection: json
+      }, () => this.props.history.push("/products"))      
     })
   }
 

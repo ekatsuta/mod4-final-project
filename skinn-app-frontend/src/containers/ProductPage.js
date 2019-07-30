@@ -151,12 +151,6 @@ export default class ProductPage extends React.Component {
       }
       return arrSum(sum)
 
-      // let arrAvg = sum => sum.reduce((a,b) => a + b, 0) / sum.length
-      console.log("avg", arrSum(sum))
-      // this.setState({
-      //   avgRating: avg
-      // })
-
     }
 
   render () {

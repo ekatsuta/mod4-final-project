@@ -5,15 +5,21 @@ Rails.application.routes.draw do
   resources :products
   resources :users
 
-  get '/login', to: "users#login"
+  post '/signup', to: "users#create"
+  post '/login', to: "auth#login"
+
+  get '/auto_login', to: "auth#auto_login"
+
   post '/user_products/addProducts', to: "user_products#add_products"
+  post '/user_products/swap', to: "user_products#swap"
 
   patch '/reviews/:id', to: "reviews#update"
-
   delete '/reviews/:id', to: "reviews#destroy"
 
 
-  post '/user_products/swap', to: "user_products#swap"
+
+
+
 
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

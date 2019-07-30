@@ -323,8 +323,8 @@ code {
 
 }
 
-.login-form input[type=text] {
-  margin: 10%;
+.login-form input[type=text], input[type=password] {
+  margin: 2%;
   font-size: 20px;
   text-align: center;
   padding: 8px 5px;
@@ -384,10 +384,32 @@ code {
   width: 45%;
   font-style: italic;
   margin: 2%;
+  align-items: center;
 }
 
 .product-page-description h3 {
   font-family: 'Lora', serif;
+  /* font-family: Montserrat; */
+  font-size: 17px;
+  width: 100%;
+  background-color: #fbeef0;
+  padding: 6px;
+}
+
+.product-page-description p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+
+.product-page-description a {
+  text-decoration: none;
+  display: flex;
+  justify-content: flex-end;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.product-page-description a.hover {
+  color: pink
 }
 
 .product-page-info {
@@ -471,4 +493,14 @@ code {
 
 .search-bar input{
   font-size: 14px
+}
+
+.profile-image-container {
+  width: 5%;
+  display: block;
+  padding-top: 1%
+}
+
+.profile-icon {
+  width: 100%;
 }

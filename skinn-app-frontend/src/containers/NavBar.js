@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-
+import default_profile from '../components/default_profile.png'
 
 class NavBar extends React.Component {
 
@@ -27,6 +27,21 @@ class NavBar extends React.Component {
     )
   }
 
+  // renderProfileController(){
+  //   return (
+  //     <div className="profile-image-container">
+  //       <div className = "dropdown">
+  //       <img className="profile-icon" src={this.props.currentUser.profile_img ? this.props.currentUser.profile_img : default_profile}/>
+  //         <div className="dropdown-content">
+  //           <p>test</p>
+  //           <p>test</p>
+  //           <p>test</p>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   )
+  // }
+
   render(){
     return(
       <React.Fragment>
@@ -36,6 +51,7 @@ class NavBar extends React.Component {
           {this.props.currentUser ? null : <Link to="/login" style={{ textDecoration: 'none' }}><button>LOG IN</button></Link>}
           {this.props.currentUser ? <button onClick={this.props.logout}>LOG OUT</button> : null}
           {this.props.currentUser ? null : <Link to="/signup" style={{textDecoration: 'none'}}><button>SIGN UP</button></Link>}
+    
         </div>
         {this.props.currentUser ? <Link to="/products" style={{ textDecoration: 'none', padding: 50 }}><h3 className="logo">SKINN</h3></Link> : <h3 style={{ textDecoration: 'none', padding: 50 }} className="logo">SKINN</h3>}
       </div>

@@ -9,7 +9,7 @@ class NavBar extends React.Component {
       <React.Fragment>
         <div className="dropdown">
         <Link to="/browse" style={{ textDecoration: 'none' }} className="dropbtn"><button>BROWSE</button></Link>
-          <div className="dropdown-content">
+          <div class="dropdown-content">
             <Link to="/categories/1">Oil Cleansers</Link>
             <Link to="/categories/2">Water Base Cleansers</Link>
             <Link to="/categories/3">Exfoliator</Link>

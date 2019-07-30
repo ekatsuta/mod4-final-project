@@ -43,7 +43,7 @@ class Browse extends React.Component {
       return this.renderStepCards(filteredProducts)
     } else if (this.state.searchTerm) {
       const filteredProducts = this.props.products.filter(product => {
-        return product.brand.includes(this.state.searchTerm) || product.name.includes(this.state.searchTerm)
+        return product.brand.toLowerCase().includes(this.state.searchTerm.toLowerCase()) || product.name.toLowerCase().includes(this.state.searchTerm.toLowerCase())
       })
       return this.renderStepCards(filteredProducts)
     } else {
@@ -53,27 +53,32 @@ class Browse extends React.Component {
 
 
   // Should move up the state from FilterBar & SearchBar
-  filterProductsBySkin = (skintype) => {
-    // const filteredProducts = this.props.products.filter(product => {
-    //   return product.skintype === skintype
-    // })
+  handleSkintypeChange = (event) => {
+    event.persist()
     this.setState({
-      skintype: skintype
+      skintype: event.target.value.toLowerCase()
     })
   }
 
-  filterProductsByBrand = (brand) => {
-    // const filteredProducts = this.props.products.filter(product => {
-    //   return product.brand === brand
-    // })
+  handleBrandChange = (event) => {
+      event.persist()
     this.setState({
-      brand: brand
+      brand: event.target.value
     })
   }
 
-  handleSearch = (searchTerm) => {
+  handleSearch = (event) => {
+    event.persist()
     this.setState({
-      searchTerm: searchTerm
+      searchTerm: event.target.value
+    })
+  }
+
+  handleClear = () => {
+    this.setState({
+      skintype: null,
+      brand: null,
+      searchTerm: null
     })
   }
 
@@ -82,8 +87,8 @@ class Browse extends React.Component {
     return (
       <div className="browse-container">
         <div className="search-filter-container">
-          <SearchBar handleSearch={this.handleSearch}/>
-          <FilterBar filterProductsBySkin={this.filterProductsBySkin} filterProductsByBrand={this.filterProductsByBrand} products={this.props.products}/>
+          <SearchBar handleSearch={this.handleSearch} searchTerm={this.state.searchTerm}/>
+          <FilterBar handleSkintypeChange={this.handleSkintypeChange} handleBrandChange={this.handleBrandChange} products={this.props.products} handleClear={this.handleClear}/>
         </div>
         <div className="browse-products-container">
         {this.renderProducts()}

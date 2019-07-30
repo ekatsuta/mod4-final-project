@@ -109,7 +109,7 @@ class App extends React.Component {
     .then(json => {
       this.setState({
         userCollection: json
-      }, () => this.props.history.push("/products"))      
+      }, () => this.props.history.push("/products"))
     })
   }
 
@@ -271,7 +271,7 @@ class App extends React.Component {
                     // if a post is found based on the id in the URL, great!
                     if (this.state.currentProduct){
                       return (
-                        <ProductPage product={foundProduct} pathName="browse" swapItem={this.swapItem}/>
+                        <ProductPage product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem}/>
                       )
                     } else {
                       // if a post is not found, then render a Redirect

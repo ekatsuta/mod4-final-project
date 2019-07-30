@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 class StepCard extends React.Component {
 
@@ -30,13 +30,14 @@ class StepCard extends React.Component {
   }
 
   render(){
+    debugger
     return(
       <div  onClick={() => {this.props.handleProductClick(this.props.product.id)}} className={this.props.pathName === 'browse' ? "browse-card" : "step-card"}>
 
           {this.props.pathName === 'browse' ? null : this.renderSteps() }
           <Link to={`/products/${this.props.product.id}`}>
             <div className="product-image-container">
-              <img className="product-image" src={this.props.product.img_path} />
+              <img className="product-image" src={this.props.product.img_path} alt="product"/>
               {this.props.pathName === 'browse' ? this.renderSwapButton() : this.renderDescription()}
             </div>
           </Link>

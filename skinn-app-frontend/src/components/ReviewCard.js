@@ -5,9 +5,7 @@ class ReviewCard extends React.Component {
 
   renderUser = () => {
 
-    console.log("users", this.props.users)
-    // debugger;
-    if (this.props.review) {
+   if (this.props.review) {
       let foundUser = this.props.users.find(user => {
         return this.props.review.user_id === user.id
       })

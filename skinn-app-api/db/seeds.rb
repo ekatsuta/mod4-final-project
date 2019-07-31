@@ -11,16 +11,16 @@ Category.destroy_all
 Product.destroy_all
 
 
-Category.create(name: "oil cleanser")
-Category.create(name: "water based cleanser")
-Category.create(name: "exfoliator")
-Category.create(name: "toner")
-Category.create(name: "serum")
-Category.create(name: "mask")
-Category.create(name: "eyecream")
-Category.create(name: "moisturizer")
-Category.create(name: "sunscreen")
-Category.create(name: "facial oil")
+Category.create(name: "oil cleanser", whatitdoes: "Breaks down oil-based debris such as makeup and sunscreen", howto: "Morning and night, gently massage into dry skin, add lukewarm water to emulsify, then rinse.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-makeup_small.png?328794")
+Category.create(name: "water based cleanser", whatitdoes: "Removes water-based impurities such as sweat and dirt", howto: "Morning and night, apply to your damp face and neck and massage in circular motion, then rinse with lukewarm water.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-waterbased_small.png?328794")
+Category.create(name: "exfoliator", whatitdoes: "Cleans debris from pores and removes dead skin cells", howto: "Gently exfoliate 1-2 times/week, focusing on your nose and the visible pores on your cheeks.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-exoliator_small.png?328794")
+Category.create(name: "toner", whatitdoes: "Balances moisture and pH levels", howto: "Use a cotton pad to swipe across your face or pat gently into your skin using your hands.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-toner_small.png?328794")
+Category.create(name: "serum", whatitdoes: "Hydrates and aids in cell turnover", howto: "With your hands, lightly pat into face and neck. ", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-essence_small.png?328794")
+Category.create(name: "mask", whatitdoes: "Infuses your skin with concentrated essence", howto: "Smooth onto clean skin, lie back and relax for 15-20 minutes, then pat in excess essence.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-SheetMasks_small.png?328794")
+Category.create(name: "eyecream", whatitdoes: "Hydrates and prevents dark circles, puffiness, and crow's feet", howto: "Use your pinkie to gently tap (never rub!) around the entire orbital bone, avoiding the water line.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-eye-cream_small.png?328794")
+Category.create(name: "moisturizer", whatitdoes: "Seals in moisture to plump and smooth skin", howto: "Pat into your face and neck morning and night, every day.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-moisturizer_small.png?328794")
+Category.create(name: "sunscreen", whatitdoes: "Protects the skin from damaging UV rays", howto: "Gently pat into your face and neck. Re-apply throughout the day.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-sun-protection_small.png?328794")
+Category.create(name: "facial oil", whatitdoes: "Keep moisture in the skin while protecting it from the environmental damage", howto: "Morning and night, apply 4-5 drops of oil onto the palm of your hand. With your finger, dab the oil in small dots onto skin, avoiding your eye area.", image_src: "https://cdn.shopify.com/s/files/1/0249/1218/t/36/assets/placeholder-treatments_small.png?328794")
 
 
 # Oil Cleanser

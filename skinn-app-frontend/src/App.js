@@ -7,6 +7,7 @@ import BrowseContainer from './containers/BrowseContainer'
 import Login from './containers/Login'
 import SignUp from './containers/SignUp'
 import ProductPage from './containers/ProductPage'
+import EditProfile from './containers/EditProfile'
 import { Route, Switch } from 'react-router-dom'
 
 // Endpoint
@@ -16,13 +17,13 @@ class App extends React.Component {
 
   state = {
     allProducts: [],
-    userCollection: [], 
+    userCollection: [],
     skintype: "",
     quiz: false,
     question: "What is your skin type?",
     currentUser: null,
     currentProduct: null,
-    allUsers: []
+    allUsers: [],
   }
 
   handleProductClick = (propsId) => {
@@ -41,12 +42,9 @@ class App extends React.Component {
     .then(products => {
       this.setState({
         allProducts: products
-      })
-
       }, () => this.fetchUsers())
-    
-
     })
+  }
 
     // const user_id = localStorage.user_id
     // if (user_id){
@@ -73,30 +71,16 @@ class App extends React.Component {
     //     loading: false
     //   })
     // }
-  }
+
 
 
   filterProducts(){
-    //for each category, select matching products, then select matching skintype;
-    //if more than one result, randomize and choose 1
-    //save the results in user_collection array
-
-    // const categories = this.state.allProducts.map(product => {
-    //   return product.category.name
-    // })
-    // const uniqueCategories = [...new Set(categories)]
 
     const filteredProducts = this.state.allProducts.filter(product => {
       if (product.skintype === this.state.skintype || product.skintype === 'all') {
         return product
       }
     })
-    //first organize the filteredProducts according to the category, and save in a variable
-    // [[oil cleanser1, oil cleanser2],[serum1],[oil1, oil2, oil3],[]....]
-
-    // then iterate over this new organized array. And IF the element's length is more than 1,
-    // that means we have to randomize to get 1 product per category.
-
 
     const organizedProducts = {}
 
@@ -180,7 +164,8 @@ class App extends React.Component {
         alert(response.errors)
       } else {
         this.setState({
-          currentUser: response
+          currentUser: response,
+          loading: false
         }, () => {
           if (response.user_products.length === 0) {
             localStorage.user_id = response.id
@@ -219,7 +204,8 @@ class App extends React.Component {
           alert(response.errors)
         } else {
           this.setState({
-            currentUser: response
+            currentUser: response,
+            allUsers: [...this.state.allUsers, response]
           }, () => {
             localStorage.user_id = response.id
             this.props.history.push("/quiz")}
@@ -282,6 +268,27 @@ class App extends React.Component {
       })
   }
 
+  editProfile = (input) => {
+    fetch(`${API}/editprofile`, {
+      method: "PATCH",
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      },
+      body: JSON.stringify({
+        user_id: this.state.currentUser.id,
+        name: input.name,
+        profile_img: input.profile_img
+      })
+    })
+    .then(resp => resp.json())
+    .then(updatedUser => {
+      this.setState({
+        currentUser: updatedUser
+      }, () => this.props.history.push("/products"))
+    })
+  }
+
 
   render(){
 
@@ -293,11 +300,12 @@ class App extends React.Component {
     //   return (
     //     <React.Fragment>
     //       <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} logout={this.logout} currentUser={this.state.currentUser}/>
-    //       Loading...
+    //       <div className="loader"></div>
     //     </React.Fragment>
     //   )
     // }
     return (
+
       <React.Fragment>
 
         <NavBar quiz={this.state.quiz} toggleQuiz={this.toggleQuiz} logout={this.logout} currentUser={this.state.currentUser}/>
@@ -318,9 +326,10 @@ class App extends React.Component {
 
           <Route exact path="/categories/:id" render={(routerProps)=> {
             const products = this.state.allProducts.filter(product => product.category.id === parseInt(routerProps.match.params.id))
+            const category = products[0].category
 
             return (
-              <BrowseContainer {...routerProps} products={products} handleProductClick={this.handleProductClick} getCurrentUser={this.getCurrentUser}/>
+              <BrowseContainer {...routerProps} category={category} products={products} handleProductClick={this.handleProductClick} getCurrentUser={this.getCurrentUser}/>
             )
           }}/>
 
@@ -343,23 +352,26 @@ class App extends React.Component {
 
               }}/>
 
-              <Route path="/browse/:id" render={(routerProps)=>{
+          <Route path="/browse/:id" render={(routerProps)=>{
 
-                    const foundProduct = this.state.allProducts.find(product => product.id === parseInt(routerProps.match.params.id))
+                const foundProduct = this.state.allProducts.find(product => product.id === parseInt(routerProps.match.params.id))
 
-                    // if a post is found based on the id in the URL, great!
-                    if (this.state.currentProduct){
-                      return (
+                // if a post is found based on the id in the URL, great!
+                if (this.state.currentProduct){
+                  return (
 
-                        <ProductPage users={this.state.allUsers} product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem} getCurrentUser={this.getCurrentUser}/>
+                    <ProductPage users={this.state.allUsers} product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem} getCurrentUser={this.getCurrentUser}/>
 
-                      )
-                    } else {
-                      // if a post is not found, then render a Redirect
-                      return null
-                    }
+                  )
+                } else {
+                  // if a post is not found, then render a Redirect
+                  return null
+                }
 
-                  }}/>
+              }}/>
+
+          <Route exact path="/edit" render={(routerProps) => <EditProfile {...routerProps} user={this.state.currentUser} editProfile={this.editProfile}/>} />
+
 
         </Switch>
       </React.Fragment>

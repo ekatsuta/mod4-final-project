@@ -129,7 +129,7 @@ export default class ProductPage extends React.Component {
 
   renderPickItemBtn(){
     return (
-      <button onClick={() => this.props.swapItem(this.props.product)}>PICK ITEM</button>
+      <button className="pick-item-button" onClick={() => this.props.swapItem(this.props.product)}>PICK ITEM</button>
     )
   }
 

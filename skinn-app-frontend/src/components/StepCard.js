@@ -1,13 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 
+
 class StepCard extends React.Component {
 
 
   renderDescription(){
     return (
       <div className="middle">
-        <p className="product-description">{this.props.product.description}</p>
+        <div className="product-description">
+        <h5>WHAT IT DOES:</h5>
+        <p>{this.props.category.whatitdoes}</p>
+        <h5>HOW TO:</h5>
+        <p>{this.props.category.howto}</p>
+        <img src={this.props.category.image_src} alt="category logo"/>
+        </div>
       </div>
     )
   }
@@ -41,8 +48,8 @@ class StepCard extends React.Component {
               {this.props.pathName === 'browse' ? this.renderSwapButton() : this.renderDescription()}
             </div>
           </Link>
-          <p>{this.props.product.name}</p>
-          <p>{this.props.product.brand}</p>
+          <p className="brand-title">{this.props.product.brand}</p>
+          <p className="product-title">{this.props.product.name}</p>
       </div>
     )
   }

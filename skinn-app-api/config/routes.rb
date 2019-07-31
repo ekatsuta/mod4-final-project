@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   post '/signup', to: "users#create"
   post '/login', to: "auth#login"
+  patch '/editprofile', to: "users#update"
 
   get '/auto_login', to: "auth#auto_login"
 

@@ -32,7 +32,7 @@ Main Components:
 
 ## MODEL FLOW CHART
 
-
+![Model Flow Chart](skinn-app-frontend/public/model-flow.png "Model Flow Chart for our Backend")
 
 
 ### Collaborator:

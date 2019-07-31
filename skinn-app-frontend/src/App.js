@@ -108,24 +108,47 @@ class App extends React.Component {
   }
 
   createUserProduct(userCollection){
-    //need to first fetch (componentDidMount? or Update? THEN set the state)
-    fetch(`${API}/user_products/addProducts`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json'
-      },
-      body: JSON.stringify({
-        userCollection: userCollection,
-        currentUser: this.state.currentUser
-      })
-    })
-    .then(resp => resp.json())
-    .then(json => {
+    if (userCollection.length > 0) {
       this.setState({
-        userCollection: json
-      }, () => this.props.history.push("/products"))
-    })
+        userCollection: []
+      }, () => {
+        fetch(`${API}/user_products/addProducts`, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json'
+          },
+          body: JSON.stringify({
+            userCollection: userCollection,
+            currentUser: this.state.currentUser
+          })
+        })
+        .then(resp => resp.json())
+        .then(json => {
+          this.setState({
+            userCollection: json
+          }, () => this.props.history.push("/products"))
+        })
+      })
+    } else {
+      fetch(`${API}/user_products/addProducts`, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify({
+          userCollection: userCollection,
+          currentUser: this.state.currentUser
+        })
+      })
+      .then(resp => resp.json())
+      .then(json => {
+        this.setState({
+          userCollection: json
+        }, () => this.props.history.push("/products"))
+      })
+    }
   }
 
   randomizeSelection(productArr){
@@ -152,7 +175,7 @@ class App extends React.Component {
   }
 
   patchSkintype = () => {
-    console.log("app 164", this.state.currentUser, this.state.skintype)
+
     // if (this.state.skintype){
       fetch(`http://localhost:3000/users/${this.state.currentUser.id}`, {
         method: "PATCH",
@@ -317,7 +340,6 @@ class App extends React.Component {
 
 
   render(){
-    console.log("app", this.state)
 
     const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
       return a.category.id - b.category.id

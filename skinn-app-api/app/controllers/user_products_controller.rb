@@ -6,10 +6,11 @@ class UserProductsController < ApplicationController
   end
 
   def add_products
-    
+
     userCollection = params["userCollection"]
     currentUserId = params["currentUser"]["id"]
     newCollection = UserProduct.createUserProduct(userCollection, currentUserId)
+    # byebug
     render json: newCollection
   end
 

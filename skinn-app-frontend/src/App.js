@@ -252,7 +252,7 @@ class App extends React.Component {
         } else {
           this.setState({
 
-            currentUser: response,
+            currentUser: {...response, skintype: this.state.skintype},
             allUsers: [...this.state.allUsers, response]
 
           }, () => {

@@ -19,6 +19,13 @@ class UsersController < ApplicationController
 
   end
 
+
+  def editimage
+    user = User.find(params[:user_id])
+    user.update(name: params[:name], profile_img: params[:profile_img])
+    render json: user
+  end 
+
   def show
     user = User.find(params[:id])
     render json: user
@@ -28,6 +35,7 @@ class UsersController < ApplicationController
     user = User.find(params[:id])
     user.update(user_skintype: params[:user_skintype])
     user.save
+
     render json: user
   end
 

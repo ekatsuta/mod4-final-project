@@ -83,7 +83,6 @@ class Browse extends React.Component {
   }
 
   render(){
-    console.log(this.props.products)
     return (
       <div className="browse-container">
         <div className="search-filter-container">
@@ -91,6 +90,7 @@ class Browse extends React.Component {
           <FilterBar handleSkintypeChange={this.handleSkintypeChange} handleBrandChange={this.handleBrandChange} products={this.props.products} handleClear={this.handleClear}/>
         </div>
         <div className="browse-products-container">
+        <h3>{this.props.category ? this.props.category.name.toUpperCase() + "S" : "ALL PRODUCTS"}</h3>
         {this.renderProducts()}
         </div>
       </div>

@@ -2,7 +2,7 @@
 ------
 **Final Project for [Flatiron School](https://flatironschool.com/) Module 4 (React.js)**
 
-
+![Main Component](skinn-app-frontend/public/app-screenshot.png "Main Container Component Rendering")
 
 ## PROJECT DESCRIPTION
 

@@ -154,9 +154,32 @@ class App extends React.Component {
   }
 
   handleSkintype = (event) => {
+    event.persist();
     this.setState({
+      currentUser: {...this.state.currentUser, user_skintype: event.target.innerText.toLowerCase()},
       skintype: event.target.innerText.toLowerCase()
-    }, () => this.filterProducts())
+    }, () => {
+      this.patchSkintype()
+      this.filterProducts()})
+  }
+
+  patchSkintype = () => {
+    console.log("app 164", this.state.currentUser, this.state.skintype)
+    // if (this.state.skintype){
+      fetch(`http://localhost:3000/users/${this.state.currentUser.id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          user_skintype: this.state.skintype,
+        })
+      })
+        .then(r => r.json())
+        .then(data => {
+          console.log("patchSkintype", data)})
+    // }
   }
 
   loginUser = (input) => {
@@ -216,7 +239,9 @@ class App extends React.Component {
           alert(response.errors)
         } else {
           this.setState({
-            currentUser: response
+            currentUser: {...response, skintype: this.state.skintype},
+            allUsers: [...this.state.allUsers, response]
+
           }, () => {
             localStorage.user_id = response.id
             this.props.history.push("/quiz")}
@@ -281,7 +306,7 @@ class App extends React.Component {
 
 
   render(){
-    console.log("app", this.state.allUsers)
+    console.log("app", this.state)
 
     const sortedTenStepProducts = this.state.userCollection.sort(function(a,b){
       return a.category.id - b.category.id
@@ -312,6 +337,7 @@ class App extends React.Component {
           handleSkintype={this.handleSkintype}
           question={this.state.question}
           skintype={this.state.skintype}
+          userID={this.state.currentUser}
           products={this.state.userCollection} getCurrentUser={this.getCurrentUser}/>}/>
 
           <Route exact path="/categories/:id" render={(routerProps)=> {
@@ -330,7 +356,8 @@ class App extends React.Component {
                 if (this.state.currentProduct){
                   return (
 
-                    <ProductPage users={this.state.allUsers} pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} getCurrentUser={this.getCurrentUser}/>
+                    <ProductPage skintype={this.state.skintype}
+                    users={this.state.allUsers} pathName="products" userID={this.state.currentUser} productID={this.state.currentProduct.id} product={foundProduct} getCurrentUser={this.getCurrentUser}/>
 
 
                   )
@@ -349,7 +376,8 @@ class App extends React.Component {
                     if (this.state.currentProduct){
                       return (
 
-                        <ProductPage users={this.state.allUsers} product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem} getCurrentUser={this.getCurrentUser}/>
+                        <ProductPage skintype={this.state.skintype}
+                        users={this.state.allUsers} product={foundProduct} userID={this.state.currentUser} productID={this.state.currentProduct.id} pathName="browse" swapItem={this.swapItem} getCurrentUser={this.getCurrentUser}/>
 
                       )
                     } else {

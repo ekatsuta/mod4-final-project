@@ -8,7 +8,8 @@ class UsersController < ApplicationController
     user = User.new(
       username: params[:username],
       password: params[:password],
-      name: params[:name])
+      name: params[:name],
+      user_skintype: params[:profile_img])
 
     if user.save
       render json: user
@@ -16,6 +17,18 @@ class UsersController < ApplicationController
       render json: {errors: user.errors.full_messages}
     end
 
+  end
+
+  def show
+    user = User.find(params[:id])
+    render json: user
+  end
+
+  def update
+    user = User.find(params[:id])
+    user.update(user_skintype: params[:user_skintype])
+    user.save
+    render json: user
   end
 
   # private

@@ -18,6 +18,7 @@ class SignUp extends React.Component {
 
   handleSubmit = (event) => {
     event.preventDefault()
+
     this.props.signUpUser(this.state)
     this.setState({
       name: "",

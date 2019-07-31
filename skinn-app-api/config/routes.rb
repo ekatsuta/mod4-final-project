@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   post '/user_products/addProducts', to: "user_products#add_products"
   post '/user_products/swap', to: "user_products#swap"
+  patch 'users/:id', to: "users#update"
 
   patch '/reviews/:id', to: "reviews#update"
   delete '/reviews/:id', to: "reviews#destroy"

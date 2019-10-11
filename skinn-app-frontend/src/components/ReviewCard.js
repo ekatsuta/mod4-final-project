@@ -4,12 +4,11 @@ import StarRating from './StarRating'
 class ReviewCard extends React.Component {
 
   renderUser = () => {
-
    if (this.props.review) {
       let foundUser = this.props.users.find(user => {
         return this.props.review.user_id === user.id
       })
-      console.log("foundUser", foundUser.user_skintype)
+      console.log("foundUser", foundUser)
       return foundUser.username
 
     }
@@ -18,11 +17,11 @@ class ReviewCard extends React.Component {
 
   renderUserSkintype = () => {
     if (this.props.review) {
-      let foundUser = this.props.users.find(user => {
-        return this.props.review.user_id === user.id
-      })
-      console.log("foundUser", foundUser.user_skintype)
-      return foundUser.user_skintype
+      // let foundUser = this.props.users.find(user => {
+      //   return this.props.review.user_id === user.id
+      // })
+      console.log("this guy", this.props)
+      return this.props.user.user_skintype
 
     }
   }

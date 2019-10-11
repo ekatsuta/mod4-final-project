@@ -165,6 +165,7 @@ class App extends React.Component {
   }
 
   handleSkintype = (event) => {
+    console.log("handleSkinType", event.target)
     event.persist();
     this.setState({
       currentUser: {...this.state.currentUser, user_skintype: event.target.innerText.toLowerCase()},
@@ -251,7 +252,6 @@ class App extends React.Component {
           alert(response.errors)
         } else {
           this.setState({
-
             currentUser: {...response, skintype: this.state.skintype},
             allUsers: [...this.state.allUsers, response]
 
